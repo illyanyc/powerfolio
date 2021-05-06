@@ -48,3 +48,7 @@ conda install -c anaconda beautifulsoup4
 
 
 ## Computation Methods
+
+## Team 
+
+Ludovic Schneider
