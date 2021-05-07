@@ -3,6 +3,12 @@
 <img src="images/logo.png" width="150" title="stock_flex">
 
 ---
+Creators: 
+- Illya Nayshevsky, Ph.D.
+- Nathan S. Froemming, Ph.D.
+- Ludovic Schneider
+- 
+- 
 
 
 ## Overview
@@ -48,7 +54,3 @@ conda install -c anaconda beautifulsoup4
 
 
 ## Computation Methods
-
-## Team 
-
-Ludovic Schneider
