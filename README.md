@@ -6,7 +6,7 @@
 Creators: 
 - Illya Nayshevsky, Ph.D.
 - Nathan S. Froemming, Ph.D.
-- 
+- Ludovic Schneider
 - 
 - 
 
