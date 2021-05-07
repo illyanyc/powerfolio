@@ -19,7 +19,24 @@ Creators:
 #### RSI
 Relative Strenght Index (RSI)
 
-The relative strength index (RSI) is a momentum technical indicator used to evaluate overbought or oversold conditions in the price of securities. It measures the magnitude of price change of the asset. The range for RSI indicator is 0 to 100.[Ref. Investopedia.com](https://www.investopedia.com/terms/r/rsi.asp)
+The relative strength index (RSI) is a momentum technical indicator used to evaluate overbought or oversold conditions in the price of securities. It measures the magnitude of price change of the asset. The range for RSI indicator is 0 to 100. [Ref. Investopedia.com](https://www.investopedia.com/terms/r/rsi.asp)
+
+
+#### MACD
+
+
+
+## Fundamental Analysis
+#### PE
+
+#### EPS
+
+#### Dividnent
+
+
+
+### Traditional Analysis
+#### 
 
 
 ## Installation

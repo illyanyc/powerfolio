@@ -1,4 +1,4 @@
-Symbol,Security,GICS Sector,GICS Sub-Industry,Headquarters Location,Date first added,CIK,Founded
+ï»¿Symbol,Security,GICSÂ Sector,GICS Sub-Industry,Headquarters Location,Date first added,CIK,Founded
 MMM,3M Company,Industrials,Industrial Conglomerates,"St. Paul, Minnesota",8/9/1976,66740,1902
 ABT,Abbott Laboratories,Health Care,Health Care Equipment,"North Chicago, Illinois",3/31/1964,1800,1888
 ABBV,AbbVie Inc.,Health Care,Pharmaceuticals,"North Chicago, Illinois",12/31/2012,1551152,2013 (1888)
@@ -21,11 +21,11 @@ ALGN,Align Technology,Health Care,Health Care Supplies,"San Jose, California",6/
 ALLE,Allegion,Industrials,Building Products,"Dublin, Ireland",12/2/2013,1579241,1908
 LNT,Alliant Energy,Utilities,Electric Utilities,"Madison, Wisconsin",7/1/2016,352541,1917
 ALL,Allstate Corp,Financials,Property & Casualty Insurance,"Northfield Township, Illinois",7/13/1995,899051,1931
-GOOGL,Alphabet Inc. (Class A),Communication Services,Interactive Media & Services,"Mountain View, California",4/3/2014,1652044,1998
-GOOG,Alphabet Inc. (Class C),Communication Services,Interactive Media & Services,"Mountain View, California",4/3/2006,1652044,1998
+GOOGL,Alphabet Inc.Â (Class A),Communication Services,Interactive Media & Services,"Mountain View, California",4/3/2014,1652044,1998
+GOOG,Alphabet Inc.Â (Class C),Communication Services,Interactive Media & Services,"Mountain View, California",4/3/2006,1652044,1998
 MO,Altria Group Inc,Consumer Staples,Tobacco,"Richmond, Virginia",3/4/1957,764180,1985
 AMZN,Amazon.com Inc.,Consumer Discretionary,Internet & Direct Marketing Retail,"Seattle, Washington",11/18/2005,1018724,1994
-AMCR,Amcor plc,Materials,Paper Packaging,"Warmley, Bristol, United Kingdom",6/7/2019,1748790,2019 (1860)
+AMCR,Amcor plc,Materials,Paper Packaging,"Warmley,Â Bristol, United Kingdom",6/7/2019,1748790,2019 (1860)
 AEE,Ameren Corp,Utilities,Multi-Utilities,"St. Louis, Missouri",9/19/1991,1002910,1902
 AAL,American Airlines Group,Industrials,Airlines,"Fort Worth, Texas",3/23/2015,6201,1934
 AEP,American Electric Power,Utilities,Electric Utilities,"Columbus, Ohio",3/4/1957,4904,1906
@@ -41,7 +41,7 @@ APH,Amphenol Corp,Information Technology,Electronic Components,"Wallingford, Con
 ADI,"Analog Devices, Inc.",Information Technology,Semiconductors,"Norwood, Massachusetts",10/12/1999,6281,1965
 ANSS,"ANSYS, Inc.",Information Technology,Application Software,"Canonsburg, Pennsylvania",6/19/2017,1013462,1969
 ANTM,Anthem,Health Care,Managed Health Care,"Indianapolis, Indiana",7/25/2002,1156039,2014 (1946)
-AON,Aon plc,Financials,Insurance Brokers,"London, United Kingdom",4/23/1996,315293,1982 (1919)
+AON,Aon plc,Financials,Insurance Brokers,"London,Â United Kingdom",4/23/1996,315293,1982 (1919)
 AOS,A.O. Smith Corp,Industrials,Building Products,"Milwaukee, Wisconsin",7/26/2017,91142,1916
 APA,APA Corporation,Energy,Oil & Gas Exploration & Production,"Houston, Texas",7/28/1997,6769,1954
 AAPL,Apple Inc.,Information Technology,"Technology Hardware, Storage & Peripherals","Cupertino, California",11/30/1982,320193,1977
@@ -144,8 +144,8 @@ DXCM,DexCom,Health Care,Health Care Equipment,"San Diego, California",5/12/2020,
 FANG,Diamondback Energy,Energy,Oil & Gas Exploration & Production,"Midland, Texas",12/3/2018,1539838,2007
 DLR,Digital Realty Trust Inc,Real Estate,Specialized REITs,"Austin, Texas",5/18/2016,1297996,2004
 DFS,Discover Financial Services,Financials,Consumer Finance,"Riverwoods, Illinois",7/2/2007,1393612,1985
-DISCA,"Discovery, Inc. (Series A)",Communication Services,Broadcasting,"New York, New York",3/1/2010,1437107,1985
-DISCK,"Discovery, Inc. (Series C)",Communication Services,Broadcasting,"New York, New York",8/7/2014,1437107,1985
+DISCA,"Discovery, Inc.Â (Series A)",Communication Services,Broadcasting,"New York, New York",3/1/2010,1437107,1985
+DISCK,"Discovery, Inc.Â (Series C)",Communication Services,Broadcasting,"New York, New York",8/7/2014,1437107,1985
 DISH,Dish Network,Communication Services,Cable & Satellite,"Meridian, Colorado",3/13/2017,1001082,1980
 DG,Dollar General,Consumer Discretionary,General Merchandise Stores,"Goodlettsville, Tennessee",12/3/2012,29534,1939
 DLTR,Dollar Tree,Consumer Discretionary,General Merchandise Stores,"Chesapeake, Virginia",12/19/2011,935703,1986
@@ -173,7 +173,7 @@ EFX,Equifax Inc.,Industrials,Research & Consulting Services,"Atlanta, Georgia",6
 EQIX,Equinix,Real Estate,Specialized REITs,"Redwood City, California",3/20/2015,1101239,1998
 EQR,Equity Residential,Real Estate,Residential REITs,"Chicago, Illinois",12/3/2001,906107,1969
 ESS,"Essex Property Trust, Inc.",Real Estate,Residential REITs,"San Mateo, California",4/2/2014,920522,1971
-EL,Estée Lauder Companies,Consumer Staples,Personal Products,"New York, New York",1/5/2006,1001250,1946
+EL,EstÃ©e Lauder Companies,Consumer Staples,Personal Products,"New York, New York",1/5/2006,1001250,1946
 ETSY,Etsy,Consumer Discretionary,Internet & Direct Marketing Retail,"Brooklyn, New York",9/21/2020,1370637,2005
 EVRG,Evergy,Utilities,Electric Utilities,"Kansas City, Missouri",6/5/2018,1711269,1909
 ES,Eversource Energy,Utilities,Multi-Utilities,"Hartford, Connecticut",,72741,1966
@@ -200,8 +200,8 @@ F,Ford Motor Company,Consumer Discretionary,Automobile Manufacturers,"Dearborn, 
 FTNT,Fortinet,Information Technology,Systems Software,"Sunnyvale, California",10/11/2018,1262039,2000
 FTV,Fortive Corp,Industrials,Industrial Machinery,"Everett, Washington",7/1/2016,1659166,2016
 FBHS,Fortune Brands Home & Security,Industrials,Building Products,"Deerfield, Illinois",6/22/2016,1519751,2011 (1969)
-FOXA,Fox Corporation (Class A),Communication Services,Movies & Entertainment,"New York, New York",7/1/2013,1754301,2019
-FOX,Fox Corporation (Class B),Communication Services,Movies & Entertainment,"New York, New York",9/18/2015,1754301,2019
+FOXA,Fox CorporationÂ (Class A),Communication Services,Movies & Entertainment,"New York, New York",7/1/2013,1754301,2019
+FOX,Fox CorporationÂ (Class B),Communication Services,Movies & Entertainment,"New York, New York",9/18/2015,1754301,2019
 BEN,Franklin Resources,Financials,Asset Management & Custody Banks,"San Mateo, California",,38777,1947
 FCX,Freeport-McMoRan Inc.,Materials,Copper,"Phoenix, Arizona",,831259,1912
 GPS,Gap Inc.,Consumer Discretionary,Apparel Retail,"San Francisco, California",8/31/1986,39911,1969
@@ -275,7 +275,7 @@ KMB,Kimberly-Clark,Consumer Staples,Household Products,"Irving, Texas",3/4/1957,
 KIM,Kimco Realty,Real Estate,Retail REITs,"New Hyde Park, New York",4/4/2006,879101,1958
 KMI,Kinder Morgan,Energy,Oil & Gas Storage & Transportation,"Houston, Texas",5/25/2012,1506307,1997
 KLAC,KLA Corporation,Information Technology,Semiconductor Equipment,"Milpitas, California",,319201,1975/1977 (1997)
-KHC,Kraft Heinz Co,Consumer Staples,Packaged Foods & Meats,"Chicago, Illinois; Pittsburgh, Pennsylvania",7/6/2015,1637459,2015 (1869)
+KHC,Kraft Heinz Co,Consumer Staples,Packaged Foods & Meats,"Chicago, Illinois;Â Pittsburgh, Pennsylvania",7/6/2015,1637459,2015 (1869)
 KR,Kroger Co.,Consumer Staples,Food Retail,"Cincinnati, Ohio",3/4/1957,56873,1883
 LB,L Brands Inc.,Consumer Discretionary,Apparel Retail,"Columbus, Ohio",9/30/1983,701985,1963
 LHX,L3Harris Technologies,Industrials,Aerospace & Defense,"Melbourne, Florida",9/22/2008,202058,2019 (1895)
@@ -309,7 +309,7 @@ MKC,McCormick & Co.,Consumer Staples,Packaged Foods & Meats,"Hunt Valley, Maryla
 MXIM,Maxim Integrated Products,Information Technology,Semiconductors,"San Jose, California",12/3/2018,743316,1983
 MCD,McDonald's Corp.,Consumer Discretionary,Restaurants,"Chicago, Illinois",6/30/1970,63908,1940
 MCK,McKesson Corp.,Health Care,Health Care Distributors,"Irving, Texas",,927653,1833
-MDT,Medtronic plc,Health Care,Health Care Equipment,"Dublin, Ireland",10/31/1986,1613103,1949
+MDT,Medtronic plc,Health Care,Health Care Equipment,"Dublin,Â Ireland",10/31/1986,1613103,1949
 MRK,Merck & Co.,Health Care,Pharmaceuticals,"Kenilworth, New Jersey",3/4/1957,310158,1891
 MET,MetLife Inc.,Financials,Life & Health Insurance,"New York, New York",,1099219,1868
 MTD,Mettler Toledo,Health Care,Life Sciences Tools & Services,"Columbus, Ohio",9/6/2016,1037646,1945
@@ -333,8 +333,8 @@ NTAP,NetApp,Information Technology,"Technology Hardware, Storage & Peripherals",
 NFLX,Netflix Inc.,Communication Services,Movies & Entertainment,"Los Gatos, California",12/20/2010,1065280,1997
 NWL,Newell Brands,Consumer Discretionary,Housewares & Specialties,"Atlanta, Georgia",4/30/1989,814453,1903
 NEM,Newmont Corporation,Materials,Gold,"Denver, Colorado",6/30/1969,1164727,1921
-NWSA,News Corp (Class A),Communication Services,Publishing,"New York, New York",8/1/2013,1564708,2013 (1980)
-NWS,News Corp (Class B),Communication Services,Publishing,"New York, New York",9/18/2015,1564708,2013 (1980)
+NWSA,News CorpÂ (Class A),Communication Services,Publishing,"New York, New York",8/1/2013,1564708,2013 (1980)
+NWS,News CorpÂ (Class B),Communication Services,Publishing,"New York, New York",9/18/2015,1564708,2013 (1980)
 NEE,NextEra Energy,Utilities,Multi-Utilities,"Juno Beach, Florida",6/30/1976,753308,1984 (1925)
 NLSN,Nielsen Holdings,Industrials,Research & Consulting Services,"New York, New York",7/9/2013,1492633,1923
 NKE,"Nike, Inc.",Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Washington County, Oregon",11/30/1988,320187,1964
@@ -410,7 +410,7 @@ RCL,Royal Caribbean Group,Consumer Discretionary,"Hotels, Resorts & Cruise Lines
 SPGI,S&P Global Inc.,Financials,Financial Exchanges & Data,"New York, New York",,64040,1917
 CRM,Salesforce.com,Information Technology,Application Software,"San Francisco, California",9/15/2008,1108524,1999
 SBAC,SBA Communications,Real Estate,Specialized REITs,"Boca Raton, Florida",9/1/2017,1034054,1989
-SLB,Schlumberger Ltd.,Energy,Oil & Gas Equipment & Services,"Curaçao, Kingdom of the Netherlands",3/31/1965,87347,1926
+SLB,Schlumberger Ltd.,Energy,Oil & Gas Equipment & Services,"CuraÃ§ao,Â Kingdom of the Netherlands",3/31/1965,87347,1926
 STX,Seagate Technology,Information Technology,"Technology Hardware, Storage & Peripherals","Dublin, Ireland",7/2/2012,1137789,1979
 SEE,Sealed Air,Materials,Paper Packaging,"Charlotte, North Carolina",3/4/1957,1012100,1960
 SRE,Sempra Energy,Utilities,Multi-Utilities,"San Diego, California",,1032208,1998
@@ -456,8 +456,8 @@ TSN,Tyson Foods,Consumer Staples,Packaged Foods & Meats,"Springdale, Arkansas",,
 UDR,"UDR, Inc.",Real Estate,Residential REITs,"Highlands Ranch, Colorado",3/7/2016,74208,1972
 ULTA,Ulta Beauty,Consumer Discretionary,Specialty Stores,"Bolingbrook, Illinois",4/18/2016,1403568,1990
 USB,U.S. Bancorp,Financials,Diversified Banks,"Minneapolis, Minnesota",,36104,1968
-UAA,Under Armour (Class A),Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Baltimore, Maryland",5/1/2014,1336917,1996
-UA,Under Armour (Class C),Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Baltimore, Maryland",4/8/2016,1336917,1996
+UAA,Under ArmourÂ (Class A),Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Baltimore, Maryland",5/1/2014,1336917,1996
+UA,Under ArmourÂ (Class C),Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Baltimore, Maryland",4/8/2016,1336917,1996
 UNP,Union Pacific Corp,Industrials,Railroads,"Omaha, Nebraska",3/4/1957,100885,1862
 UAL,United Airlines Holdings,Industrials,Airlines,"Chicago, Illinois",9/3/2015,100517,1967
 UNH,UnitedHealth Group Inc.,Health Care,Managed Health Care,"Minnetonka, Minnesota",7/1/1994,731766,1977
@@ -473,7 +473,7 @@ VZ,Verizon Communications,Communication Services,Integrated Telecommunication Se
 VRTX,Vertex Pharmaceuticals Inc,Health Care,Biotechnology,"Cambridge, Massachusetts",9/23/2013,875320,1989
 VFC,VF Corporation,Consumer Discretionary,"Apparel, Accessories & Luxury Goods","Denver, Colorado",6/30/1979,103379,1899
 VIAC,ViacomCBS,Communication Services,Movies & Entertainment,"New York, New York",,813828,2019 (1952)
-VTRS,Viatris,Health Care,Pharmaceuticals,"Pittsburgh, Pennsylvania",4/23/2004,1792044,1961
+VTRS,Viatris,Health Care,Pharmaceuticals,"Pittsburgh,Â Pennsylvania",4/23/2004,1792044,1961
 V,Visa Inc.,Information Technology,Data Processing & Outsourced Services,"San Francisco, California",12/21/2009,1403161,1958
 VNO,Vornado Realty Trust,Real Estate,Office REITs,"New York, New York",,899689,1982
 VMC,Vulcan Materials,Materials,Construction Materials,"Birmingham, Alabama",6/30/1999,1396009,1909
