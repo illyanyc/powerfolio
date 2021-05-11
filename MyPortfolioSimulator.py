@@ -50,6 +50,32 @@ def get_log_returns(
     return df_log_returns
 
 
+def get_sharpe_ratios(
+    df_alpaca: DataFrame,
+    input_label: str = 'close',
+    output_label: str = 'sharpe_ratio',
+    risk_free_rate: float = 0.0,
+) -> DataFrame:
+    """
+    Helper function to calculate the Sharpe Ratio (SR) of the input portfolio
+    dataframe.
+    """
+    # Calculate returns
+    df_returns = get_log_returns(df_alpaca, input_label=input_label)
+
+    # Calculate Sharpe Ratio
+    df_sharpe_ratios = (df_returns.mean(axis=0) - risk_free_rate) / df_returns.std(axis=0)
+
+    # Convert from `pandas.Series` to `pandas.DataFrame`, with appropriately
+    # formatted columns
+    tickers = get_tickers(df_alpaca)
+    df_sharpe_ratios = df_sharpe_ratios.to_frame().T
+    df_sharpe_ratios.columns = MultiIndex.from_product([tickers, [output_label]])
+
+    # Return the results
+    return df_sharpe_ratios
+
+
 class MyPortfolioSimulator:
     """
     """
