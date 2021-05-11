@@ -1,3 +1,16 @@
+from pandas import DataFrame
+from typing import List
+
+
+def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> List[str]:
+    """
+    Helper function to get the ticker symbols contained in an input dataframe
+    originally created using the Alpaca API (i.e. the ticker symbols are the
+    0th level of the dataframe's column `MultiIndex`).
+    """
+    return df_alpaca.columns.get_level_values(column_level).unique().tolist()
+
+
 class MyPortfolioSimulator:
     """
     """
