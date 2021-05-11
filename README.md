@@ -7,11 +7,12 @@ Creators:
 - Illya Nayshevsky, Ph.D.
 - Nathan S. Froemming, Ph.D.
 - Ludovic Schneider
-- 
-- 
+- Chandra Kandiah
 
 
 ## Overview
+
+---
 
 
 ## Theory
@@ -38,11 +39,65 @@ The relative strength index (RSI) is a momentum technical indicator used to eval
 ### Traditional Analysis
 #### 
 
+---
 
-## Installation
-### Installing Plotly to run on Jupyter
-* [Getting Started](https://plotly.com/python/getting-started/)
+## Dependencies
+### Anaconda
+* [Anaconda Overview](https://docs.anaconda.com/)
 
+### pandas
+pandas is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language. [[Pandas Overview](https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html)]
+
+#### Installation
+```python
+conda install pandas
+```
+
+
+
+### NumPy
+The fundamental package for scientific computing with Python [[Numpy Overview](https://numpy.org/)]
+
+#### Installation
+```python
+conda install numpy
+```
+
+
+
+### Panel
+A high-level app and dashboarding solution for Python [[Holoviz Panel Overview](https://panel.holoviz.org/)]
+
+#### Installation
+```python
+conda install -c pyviz panel
+```
+
+
+
+### SQLite
+SQLite is a self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine. [[SQLite Overview](https://anaconda.org/anaconda/sqlite)]
+
+#### Installation
+```python
+conda install -c anaconda sqlite
+```
+
+
+
+### SQLAlchemy
+SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL. [[SQLAlchemy Overview](https://www.sqlalchemy.org/)]
+
+#### Installation
+```python
+conda install -c anaconda sqlalchemy
+```
+
+
+### Plotly
+Interactive charts and maps for Python, R, and JavaScript. [[Plotly Overview](https://plotly.com/python/getting-started/)]
+
+#### Installation
 Plotly must be installed inside the environment where it is meant to be used.
 
 ```python
@@ -57,17 +112,43 @@ jupyter labextension install jupyterlab-plotly@4.14.3
 jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.14.3
 ```
 
-### Installing BeautifulSoup4 in Anaconda
-* [Installing lxml](https://lxml.de/installation.html)
-Installing lxml as a pre-requisite is necessary for parsing html tables into pythonic code
+
+
+### Matplotlib
+Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. [[Matplotlib Overview](https://matplotlib.org/)]
+
+#### Installation
 ```python
-pip install lxml
+conda install matplotlib
 ```
 
-* [Installing bs4](https://anaconda.org/anaconda/beautifulsoup4)
+### Alpaca Trade API
+Alpaca is a technology company headquartered in Silicon Valley that builds commission-free stock trading API (Brokerage services are provided by Alpaca Securities LLC, member FINRA/SIPC) [[Alpaca Trade API Overview](https://alpaca.markets/docs/)]
+
+#### Installation
 ```python
-conda install -c anaconda beautifulsoup4
+pip install alpaca-trade-api
 ```
+
+
+### Quandl
+The premier source for financial, economic and alternative datasets, serving investment professionals. Nasdaq’s Quandl platform is used by analysts from the world’s top hedge funds, asset managers and investment banks. [[Quandl API Overview](https://www.quandl.com/docs-and-help)]
+
+#### Installation
+```python
+conda install -c anaconda quandl
+```
+
+
+
+### FinnHub
+Real-Time RESTful APIs and Websocket for Stocks, Currencies, and Crypto. [[FinnHub API Overview](https://finnhub.io/docs/api/introduction)]
+
+#### Installation
+```python
+pip install finnhub-python
+```
+
 
 
 ## Computation Methods
