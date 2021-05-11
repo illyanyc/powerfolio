@@ -11,6 +11,15 @@ def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> List[str]:
     return df_alpaca.columns.get_level_values(column_level).unique().tolist()
 
 
+def get_attributes(df_alpaca: DataFrame, column_level: int = 1) -> List[str]:
+    """
+    Helper function to get the attributes contained in an input dataframe
+    originally created using the Alpaca API, for example, ['open', 'high',
+    'low', 'close', 'volume', 'macd', 'rsi', 'sharpe_ratio', ...].
+    """
+    return df_alpaca.columns.get_level_values(column_level).unique().tolist()
+
+
 class MyPortfolioSimulator:
     """
     """
