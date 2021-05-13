@@ -12,21 +12,25 @@ Weights = NewType('Weights', np.array)
 class PortfolioOptimizationResult:
     tickers: Tickers = None
     weights: Weights = None
+    periods_per_annum: int = None
     expected_return: float = None
     expected_variance: float = None
+    descrip: str = None
 
     def __str__(self):
+        descrip = 'PortfolioOptimizationResult' if self.descrip is None else self.descrip
         return (
-            f"PortfolioOptimizationResult\n" +
-            f"---------------------------\n" +
-            f"tickers: {self.tickers}\n" +
-            f"weights: {self.weights}\n" +
-            f"expected_return: {self.expected_return}\n" #+
+            f"{descrip}\n"
+            f"{'-' * len(descrip)}\n"
+            f"tickers: {self.tickers}\n"
+            f"weights: {self.weights}\n"
+            f"periods_per_annum: {self.periods_per_annum}\n"
+            f"expected_return: {self.expected_return}\n"
             f"expected_variance: {self.expected_variance}\n"
         )
 
 
-def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> List[str]:
+def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> Tickers:
     """
     Helper function to get the ticker symbols contained in an input dataframe
     originally created using the Alpaca API (i.e. the ticker symbols are the
@@ -183,14 +187,19 @@ class MyPortfolioSimulator:
             print()
         return None
 
-    def get_equal_weight_portfolio(self):
+    def get_equal_weight_portfolio(self) -> PortfolioOptimizationResult:
+        # Calculate weights for equal-weight portfolio
         ntickers = len(self.tickers)
         weights = np.full(ntickers, (1.0 / ntickers))
-        return (
-            self.tickers,
-            weights,
-            get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
-            get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+
+        # Return portfolio information
+        return PortfolioOptimizationResult(
+            tickers = self.tickers,
+            weights = weights,
+            periods_per_annum = self.periods_per_annum,
+            expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+            expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+            descrip = 'Equal-Weight Portfolio',
         )
 
 
