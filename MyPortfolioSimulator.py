@@ -133,6 +133,41 @@ def get_portfolio_variance(
     return (weights @ covariance_matrix @ weights) * periods_per_annum
 
 
+def get_portfolio_sharpe_ratio(
+    weights: np.array = None,
+    expected_returns: np.array = None,
+    covariance_matrix: np.array = None,
+    risk_free_rate: float = 0.0,
+    periods_per_annum: int = 252,
+) -> float:
+    portfolio_return = get_portfolio_return(weights=weights, expected_returns=expected_returns, periods_per_annum=periods_per_annum)
+    portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=periods_per_annum)
+    sharpe_numer = (portfolio_return - risk_free_rate) * periods_per_annum
+    sharpe_denom = np.sqrt(portfolio_variance * periods_per_annum)
+    sharpe_ratio = sharpe_numer / sharpe_denom
+    return sharpe_ratio
+
+
+def get_neg_portfolio_sharpe_ratio_for_scipy(
+    weights: np.array = None,
+    expected_returns: np.array = None,
+    covariance_matrix: np.array = None,
+    risk_free_rate: float = 0.0,
+    periods_per_annum: int = 252,
+) -> float:
+    """
+    In order to maximize the Sharpe Ratio using `scipy.optimize.minimize`,
+    we will *minimize the negative Sharpe Ratio*.
+    """
+    return -get_portfolio_sharpe_ratio(
+        weights = weights,
+        expected_returns = expected_returns,
+        covariance_matrix = covariance_matrix,
+        risk_free_rate = risk_free_rate,
+        periods_per_annum = periods_per_annum,
+    )
+
+
 class MyPortfolioSimulator:
     """
     """
@@ -280,6 +315,53 @@ class MyPortfolioSimulator:
             'type': 'eq',
             'fun': lambda weights: np.sum(np.abs(weights)) - 1
         }
+
+    def get_maximum_sharpe_ratio_portfolio(self) -> PortfolioOptimizationResult:
+        # Construct arguments for `get_neg_sharpe_ratio_for_scipy()`
+        expected_returns = self.df_returns_mean.to_numpy()
+        covariance_matrix = self.df_returns_cov.to_numpy()
+        risk_free_rate = self.risk_free_rate
+        periods_per_annum = self.periods_per_annum
+        args = (
+            expected_returns,
+            covariance_matrix,
+            risk_free_rate,
+            periods_per_annum
+        )
+
+        ftol = np.mean(covariance_matrix) / 1e5
+
+        opt_res = minimize(
+            get_neg_portfolio_sharpe_ratio_for_scipy,
+            x0 = self._get_random_initial_weights(),
+            bounds = self._get_weight_bounds_for_scipy(),
+            constraints = self._get_weight_constraint_for_scipy(),
+            args = args,
+            method = 'SLSQP',
+            options = {
+                'ftol': ftol,
+                'maxiter': 1e4,
+            }
+        )
+
+        # Check that the optimization terminated successfully
+        if not opt_res.success:
+            raise RuntimeError(f"Optimization did not terminate successfully!")
+
+        # Get optimal weights
+        weights = opt_res.x
+        if not np.isclose(np.sum(np.abs(weights)), 1.0):
+            raise RuntimeError(f"sum(|weights|) do not total unity!")
+
+        # Return the minimum-variance portfolio
+        return PortfolioOptimizationResult(
+            tickers = self.tickers,
+            weights = weights,
+            periods_per_annum = self.periods_per_annum,
+            expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+            expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+            descrip = 'Maximum-Sharpe-Ratio Portfolio',
+        )
 
 
 def test():
