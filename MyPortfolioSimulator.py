@@ -1,6 +1,29 @@
 import numpy as np
 from pandas import DataFrame, MultiIndex
-from typing import List
+from typing import List, NewType
+from dataclasses import dataclass
+
+
+# Helpful user-defined type for portfolio-optimization simulations
+Tickers = NewType('Tickers', List[str])
+Weights = NewType('Weights', np.array)
+
+@dataclass
+class PortfolioOptimizationResult:
+    tickers: Tickers = None
+    weights: Weights = None
+    expected_return: float = None
+    expected_variance: float = None
+
+    def __str__(self):
+        return (
+            f"PortfolioOptimizationResult\n" +
+            f"---------------------------\n" +
+            f"tickers: {self.tickers}\n" +
+            f"weights: {self.weights}\n" +
+            f"expected_return: {self.expected_return}\n" #+
+            f"expected_variance: {self.expected_variance}\n"
+        )
 
 
 def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> List[str]:
