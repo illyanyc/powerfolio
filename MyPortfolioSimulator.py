@@ -2,6 +2,7 @@ import numpy as np
 from pandas import DataFrame, MultiIndex
 from typing import List, NewType
 from dataclasses import dataclass
+from scipy.optimize import minimize
 
 
 # Helpful user-defined type for portfolio-optimization simulations
@@ -142,6 +143,7 @@ class MyPortfolioSimulator:
         keep_best_sharpe_ratios: int = 3,
         risk_free_rate: float = 0.0,
         periods_per_annum: int = 252,
+        allow_shorts: bool = False,
         input_label: str = 'close',
         debug: bool = False,
     ):
@@ -149,6 +151,7 @@ class MyPortfolioSimulator:
         self.keep_best_sharpe_ratios = keep_best_sharpe_ratios
         self.risk_free_rate = risk_free_rate
         self.periods_per_annum = periods_per_annum
+        self.allow_shorts = allow_shorts
         self.input_label = input_label
         self.debug = debug
 
@@ -160,7 +163,7 @@ class MyPortfolioSimulator:
         df_returns = get_log_returns(df_alpaca.loc[:, (self.tickers, self.input_label)])
         df_returns.columns = self.tickers
         self.df_returns_mean = df_returns.mean(axis=0)  # daily
-        self.df_returns_cov = df_returns.cov()
+        self.df_returns_cov = df_returns.cov()  # daily
 
         # Inform user
         if self.debug:
@@ -200,6 +203,26 @@ class MyPortfolioSimulator:
             expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
             expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
             descrip = 'Equal-Weight Portfolio',
+        )
+
+    def get_minimum_variance_portfolio_analytical(self) -> PortfolioOptimizationResult:
+        # Calculate the minimum-variance portfolio analytically
+        ntickers = len(self.tickers)
+        ones = np.ones(ntickers)
+        covmat_inv = np.linalg.inv(self.df_returns_cov)
+        weights = (covmat_inv @ ones) / (ones @ covmat_inv @ ones)
+        if not self.allow_shorts:
+            weights[np.where(weights < 0, True, False)] = 0.0
+        weights /= np.sum(np.abs(weights))
+
+        # Return the minimum-variance portfolio
+        return PortfolioOptimizationResult(
+            tickers = self.tickers,
+            weights = weights,
+            periods_per_annum = self.periods_per_annum,
+            expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+            expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+            descrip = 'Minimum-Variance Portfolio (Analytic Solution -- Be Careful!)',
         )
 
 
