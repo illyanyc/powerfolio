@@ -11,12 +11,13 @@ Weights = NewType('Weights', np.array)
 
 @dataclass
 class PortfolioOptimizationResult:
+    descrip: str = None
     tickers: Tickers = None
     weights: Weights = None
-    periods_per_annum: int = None
     expected_return: float = None
     expected_variance: float = None
-    descrip: str = None
+    periods_per_annum: int = None
+    sharpe_ratio: float = None
 
     def __str__(self):
         descrip = 'PortfolioOptimizationResult' if self.descrip is None else self.descrip
@@ -25,9 +26,10 @@ class PortfolioOptimizationResult:
             f"{'-' * len(descrip)}\n"
             f"tickers: {self.tickers}\n"
             f"weights: {self.weights}\n"
-            f"periods_per_annum: {self.periods_per_annum}\n"
             f"expected_return: {self.expected_return}\n"
             f"expected_variance: {self.expected_variance}\n"
+            f"periods_per_annum: {self.periods_per_annum}\n"
+            f"sharpe_ratio: {self.sharpe_ratio}\n"
         )
 
 
@@ -121,7 +123,8 @@ def get_portfolio_return(
     periods_per_annum: int = 252,
 ) -> float:
     """ Helper function to calculate the annualized portfolio return. """
-    return ((1 + (weights @ expected_returns)) ** periods_per_annum) - 1
+    #return ((1 + (weights @ expected_returns)) ** periods_per_annum) - 1
+    return (weights @ expected_returns) * periods_per_annum
 
 
 def get_portfolio_variance(
@@ -230,14 +233,25 @@ class MyPortfolioSimulator:
         ntickers = len(self.tickers)
         weights = np.full(ntickers, (1.0 / ntickers))
 
+        portfolio_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum)
+        portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum)
+        portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
+            weights=weights,
+            expected_returns=self.df_returns_mean,
+            covariance_matrix=self.df_returns_cov,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+
         # Return portfolio information
         return PortfolioOptimizationResult(
+            descrip = 'Equal-Weight Portfolio',
             tickers = self.tickers,
             weights = weights,
+            expected_return = portfolio_return,
+            expected_variance = portfolio_variance,
             periods_per_annum = self.periods_per_annum,
-            expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
-            expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
-            descrip = 'Equal-Weight Portfolio',
+            sharpe_ratio = portfolio_sharpe_ratio,
         )
 
     def get_minimum_variance_portfolio_analytical(self) -> PortfolioOptimizationResult:
@@ -252,12 +266,13 @@ class MyPortfolioSimulator:
 
         # Return the minimum-variance portfolio
         return PortfolioOptimizationResult(
+            descrip = 'Minimum-Variance Portfolio (Analytic Solution -- Be Careful!)',
             tickers = self.tickers,
             weights = weights,
-            periods_per_annum = self.periods_per_annum,
             expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
             expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
-            descrip = 'Minimum-Variance Portfolio (Analytic Solution -- Be Careful!)',
+            periods_per_annum = self.periods_per_annum,
+            sharpe_ratio = 'TODO',
         )
 
     def get_minimum_variance_portfolio(self) -> PortfolioOptimizationResult:
@@ -291,12 +306,13 @@ class MyPortfolioSimulator:
 
         # Return the minimum-variance portfolio
         return PortfolioOptimizationResult(
+            descrip = 'Minimum-Variance Portfolio',
             tickers = self.tickers,
             weights = weights,
-            periods_per_annum = self.periods_per_annum,
             expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
             expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
-            descrip = 'Minimum-Variance Portfolio',
+            periods_per_annum = self.periods_per_annum,
+            sharpe_ratio = 'TODO',
         )
 
     def _get_random_initial_weights(self) -> Weights:
@@ -355,13 +371,39 @@ class MyPortfolioSimulator:
 
         # Return the minimum-variance portfolio
         return PortfolioOptimizationResult(
+            descrip = 'Maximum-Sharpe-Ratio Portfolio',
             tickers = self.tickers,
             weights = weights,
-            periods_per_annum = self.periods_per_annum,
             expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
             expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
-            descrip = 'Maximum-Sharpe-Ratio Portfolio',
+            periods_per_annum = self.periods_per_annum,
+            sharpe_ratio = 'TODO',
         )
+
+    def get_mean_variance_bulk(self, num_simulations: int = 500) -> List[PortfolioOptimizationResult]:
+        self.results = []
+        for nsim in range(num_simulations):
+            weights = self._get_random_initial_weights()
+            portfolio_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum)
+            portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum)
+            portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
+                weights=weights,
+                expected_returns=self.df_returns_mean,
+                covariance_matrix=self.df_returns_cov,
+                risk_free_rate=self.risk_free_rate,
+                periods_per_annum=self.periods_per_annum,
+            )
+            result = PortfolioOptimizationResult(
+                tickers = self.tickers,
+                weights = weights,
+                expected_return = portfolio_return,
+                expected_variance = portfolio_variance,
+                periods_per_annum = self.periods_per_annum,
+                sharpe_ratio = portfolio_sharpe_ratio,
+            )
+            self.results.append(result)
+        return self.results
+
 
 
 def test():
