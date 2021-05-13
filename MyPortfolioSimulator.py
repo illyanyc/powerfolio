@@ -55,21 +55,32 @@ def get_sharpe_ratios(
     input_label: str = 'close',
     output_label: str = 'sharpe_ratio',
     risk_free_rate: float = 0.0,
+    periods_per_annum: int = 252,
 ) -> DataFrame:
     """
-    Helper function to calculate the Sharpe Ratio (SR) of the input portfolio
-    dataframe.
+    Helper function to calculate the annualized Sharpe Ratios of the financial
+    instruments contained in the input dataframe.
     """
-    # Calculate returns
+    # Here's what we're calculating
+    df_sharpe_ratios = None
+
+    # Calculate logarithmic returns
     df_returns = get_log_returns(df_alpaca, input_label=input_label)
 
-    # Calculate Sharpe Ratio
-    df_sharpe_ratios = (df_returns.mean(axis=0) - risk_free_rate) / df_returns.std(axis=0)
+    # Calculate annualized expected return over the risk-free rate
+    df_sharpe_numer = (df_returns.mean(axis=0) - risk_free_rate) * periods_per_annum
 
-    # Convert from `pandas.Series` to `pandas.DataFrame`, with appropriately
-    # formatted columns
-    tickers = get_tickers(df_alpaca)
+    # Calculate annualized expected standard deviation
+    df_sharpe_denom = df_returns.std(axis=0) * np.sqrt(periods_per_annum)
+
+    # Calculate annualized Sharpe Ratio
+    df_sharpe_ratios = df_sharpe_numer / df_sharpe_denom
+
+    # Convert `Series` to `DataFrame`, with appropriate format for this project
     df_sharpe_ratios = df_sharpe_ratios.to_frame().T
+
+    # Construct `MultiIndex` with appropriate format for this project
+    tickers = get_tickers(df_sharpe_ratios)
     df_sharpe_ratios.columns = MultiIndex.from_product([tickers, [output_label]])
 
     # Return the results
