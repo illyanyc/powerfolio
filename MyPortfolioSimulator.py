@@ -160,6 +160,16 @@ class MyPortfolioSimulator:
             print()
         return None
 
+    def get_equal_weight_portfolio(self):
+        ntickers = len(self.tickers)
+        weights = np.full(ntickers, (1.0 / ntickers))
+        return (
+            self.tickers,
+            weights,
+            get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+            get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+        )
+
 
 def test():
     pass
