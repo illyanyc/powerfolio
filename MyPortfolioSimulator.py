@@ -85,6 +85,15 @@ def get_portfolio_return(
     return ((1 + (weights @ expected_returns)) ** periods_per_annum) - 1
 
 
+def get_portfolio_variance(
+    weights: np.array = None,
+    covariance_matrix: np.array = None,
+    periods_per_annum: int = 252,
+) -> float:
+    """ Helper function to calculate the annualized portfolio variance. """
+    return (weights @ covariance_matrix @ weights) * periods_per_annum
+
+
 class MyPortfolioSimulator:
     """
     """
