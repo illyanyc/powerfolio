@@ -225,6 +225,62 @@ class MyPortfolioSimulator:
             descrip = 'Minimum-Variance Portfolio (Analytic Solution -- Be Careful!)',
         )
 
+    def get_minimum_variance_portfolio(self) -> PortfolioOptimizationResult:
+        # Define arguments for `scipy.optimize.minimize`
+        covmat = self.df_returns_cov.to_numpy()
+        ftol = np.mean(covmat) / 1e5
+        args = (covmat, self.periods_per_annum)
+
+        # Perform the optimization
+        opt_res = minimize(
+            get_portfolio_variance,
+            x0 = self._get_random_initial_weights(),
+            bounds = self._get_weight_bounds_for_scipy(),
+            constraints = self._get_weight_constraint_for_scipy(),
+            args = args,
+            method = 'SLSQP',
+            options = {
+                'ftol': ftol,
+                'maxiter': 1e4,
+            }
+        )
+
+        # Check that the optimization terminated successfully
+        if not opt_res.success:
+            raise RuntimeError(f"Optimization did not terminate successfully!")
+
+        # Get optimal weights
+        weights = opt_res.x
+        if not np.isclose(np.sum(np.abs(weights)), 1.0):
+            raise RuntimeError(f"sum(|weights|) do not total unity!")
+
+        # Return the minimum-variance portfolio
+        return PortfolioOptimizationResult(
+            tickers = self.tickers,
+            weights = weights,
+            periods_per_annum = self.periods_per_annum,
+            expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+            expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+            descrip = 'Minimum-Variance Portfolio',
+        )
+
+    def _get_random_initial_weights(self) -> Weights:
+        ntickers = len(self.tickers)
+        weights = np.random.random(ntickers)
+        weights /= np.sum(np.abs(weights))
+        if self.allow_shorts:
+            weights *= np.random.choice([-1, 1], ntickers)
+        return weights
+
+    def _get_weight_bounds_for_scipy(self):
+        return ((-1, 1) if self.allow_shorts else (0, 1), ) * len(self.tickers)
+
+    def _get_weight_constraint_for_scipy(self):
+        return {
+            'type': 'eq',
+            'fun': lambda weights: np.sum(np.abs(weights)) - 1
+        }
+
 
 def test():
     pass
