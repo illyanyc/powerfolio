@@ -76,6 +76,15 @@ def get_sharpe_ratios(
     return df_sharpe_ratios
 
 
+def get_portfolio_return(
+    weights: np.array = None,
+    expected_returns: np.array = None,
+    periods_per_annum: int = 252,
+) -> float:
+    """ Helper function to calculate the annualized portfolio return. """
+    return ((1 + (weights @ expected_returns)) ** periods_per_annum) - 1
+
+
 class MyPortfolioSimulator:
     """
     """
@@ -175,5 +184,5 @@ def main():
     pass
 
 
-if __name__ == 'main':
+if __name__ == '__main__':
     main()
