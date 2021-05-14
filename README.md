@@ -1,4 +1,4 @@
-# Stock Flex
+# Powerfolio!
 
 <img src="images/logo.png" width="150" title="stock_flex">
 
