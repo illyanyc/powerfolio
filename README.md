@@ -36,7 +36,7 @@ Creators:
 ## Overview
 
 #### What is Powerfolio!?
-**Powerfolio!** is a screener, portfolio builder and analyzer for S&P 500 securities.
+**Powerfolio!** is screener, portfolio builder and analyzer for S&P 500 securities.
 Powerfolio! implements fundamental analysis, technical analysis and traditional portfolio analysis methods such as Sharpe Ratio and Efficient Frontier in order to allow you to select the best *power*-folio for your financial needs.
 
 <img src="images/powerfolio_welcome.png" width="800" title="powerfolio_welcome">
@@ -50,7 +50,7 @@ Powerfolio! implements fundamental analysis, technical analysis and traditional 
 
 ## Fundamental Analysis
 ### P/E - Price to Earnings Ratio
-The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used as a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalued, and vis-versa. 
+The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
 *Formula was obtained from [Investopedia](https://www.investopedia.com/terms/p/price-earningsratio.asp)*
 
@@ -58,7 +58,7 @@ The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/p
 <br>
 
 ### EPS - Earnings per Share
-[Earnings per share (EPS)](https://www.investopedia.com/terms/e/eps.asp) is generally calculated by dividing a company's profit by the outstanding shares of its common stock. EPS is a common way for a company to report its profitability adjusted to its market capitalization. It is one of the general ways to evaluate corporate earnings.
+[Earnings per share (EPS)](https://www.investopedia.com/terms/e/eps.asp) is generally calculated by dividing company's profit by the outstanding shares of its common stock. EPS is a general way for a company to report it's profitability adjusted to it's marker capitalization. It is one of the general ways to evaluate corporate earnings.
 
 *Formula was obtained from [Investopedia](https://www.investopedia.com/terms/e/eps.asp)*
 
@@ -66,7 +66,7 @@ The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/p
 <br>
 
 ### Dividend
-A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribution of a company's earnings to its shareholders. Dividends are paid directly to shareholders of the company on a periodic basis and the amount is determined by the board of directors.
+A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribution of a company's earnings to its shareholders. Dividends are paid directly to shareholders of the company on periodic basis and the amount is determined by the board of directors.
 <br>
 <br>
 
@@ -74,7 +74,7 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 
 ## Technical Analysis
 ### RSI - Relative Strength Index
-[Relative Strength Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI, is a technical indicator used to determine whether a particular security is overbought or oversold. It measures the magnitude of price change of the asset and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
+[Relative Strength Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI is a technical indicator used to determine is a particular security is overbought or oversold. It measures the magnitude of price change of the asset; and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
 
 *Formulas were obtained from [Investopedia](https://www.investopedia.com/terms/r/rsi.asp)*
 
@@ -84,7 +84,7 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 
 <br>
 
-RSI indicator indicates that a stock is overbought when the indicator crosses above 70%, and oversold when the indicator drops below 30%. Additionally, a trader may want to enter a position when RSI crosses above 30%, indicating a bullish reversal, and exit a position when RSI drops below 70%, indicating a bearish reversal.
+RSI indicator, indicates that a stock is overbought then the indicator crosses above 70%, and oversold when the indicator drops below 30%. Additionally, a trader may want to enter a position when RSI crosses above 30%, indicating bullish reversal, and exit a position when RSI drops below 70%, indicating bearish reversal.
 
 <img src="images/rsi_plot_example.png" width="1500" title="rsi_plot_example">
 
@@ -99,7 +99,7 @@ RSI indicator indicates that a stock is overbought when the indicator crosses ab
 
 <img src="images/macd.png" width="400" title="stock_flex">
 
-[Exponential moving average](https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight on the most recent data points than on the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)], which applies an equal weight to all observations in the period.
+[Exponential moving average](https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
 In statistics, a moving average (MA), also known as simple moving average (SMA) in finance, is a calculation used to analyze data points by creating a series of averages of different subsets of the full data set. 
 
 MACD is used by traders to indicate bullish and bearish reversals when the EMA trendlines cross.
@@ -114,26 +114,55 @@ MACD is used by traders to indicate bullish and bearish reversals when the EMA t
 
 ## Traditional Analysis
 ### Sharpe Ratio
+[Sharpe Ratio](https://www.investopedia.com/terms/s/sharperatio.asp) allows user understand the return of an investment compared to the risk of the investment. Sharpe Ratio is the average return earned above the risk-free rate compared to volitility of the investment. [Volatility](https://www.investopedia.com/terms/v/volatility.asp) is a measure of the price fluctuations of an asset or portfolio. The Sharpe ratio was developed by Nobel laureate [William F. Sharpe](https://en.wikipedia.org/wiki/William_F._Sharpe) in 1966. 
+
 
 <br>
 
+<img src="images/sharpe_ratio.png" width="300" title="rsi_plot_example">
+
+where:
+
+* *R<sub>p</sub>* = return of portfolio
+* *R<sub>f</sub>* = risk-free rate
+* *σ<sub>p</sub>* = standard deviation of the portfolio’s excess return
+
+
+Subtracting the risk-free rate from the retuns allows the user to isolate the profits from the cost of money. The risk-free rate of return usually identified by the [10-year U.S. Government Bond Yield](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield), although in some instances risk-free rate may be identified as passive returns from investment in an index such as S&P 500, as that kind of investment may be considered the true cost of money.
+
+Greater Sharpe Ratio is accosiated with a greater rist-adjusted return.
+<br>
+
 ### Efficient Frontier
+The [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.asp) is the collection of portfolios optimized for the highest expected return normalized to a specified level of risk. Portfolios that lie below the efficient frontier are sub-optimal because they do not provide enough return for the level of risk. Portfolios that cluster to the right of the efficient frontier are sub-optimal because they have a higher level of risk for the defined rate of return.
+
+*The plot was taken from [TheWealthyFinn.com](https://www.thewealthyfinn.com/2019/07/risk-return-modern-portfolio-theory.html):*
+
+<img src="images/efficient_frontier_example.png" width="550" title="rsi_plot_example">
+
+<br>
+
+[Harry Markowitz](https://en.wikipedia.org/wiki/Harry_Markowitz) has introduced the Efficient Frontier in 1952 and made it the cornerstone of [modern portfolio theory](https://www.investopedia.com/terms/m/modernportfoliotheory.asp) (MPT).
 
 <br>
 
 
 ### Hierarchical Clustering
+Hierarchial Rist Clustering utilizes [hierarchial risk parity](https://quantpedia.com/hierarchical-risk-parity/) ...
+
+*The plot was taken from [QuantPedia.com](https://quantpedia.com/hierarchical-risk-parity/):*
+
+<img src="images/hierarchial_risk_parity.jpg" width="550" title="rsi_plot_example">
+
 
 <br>
-
-
 <br>
 
 ---
 
 ## Installation
 ### Anaconda
-[Anaconda](https://docs.anaconda.com/) is a package manager, an environment manager, a Python/R data science distribution, and a collection of other open-source packages. 
+[Anaconda](https://docs.anaconda.com/) is a package manager, an environment manager, a Python/R data science distribution, and a collection of over open-source packages. 
 
 #### Installation
 [Anaconda Installation](https://docs.anaconda.com/anaconda/install/)
@@ -151,8 +180,8 @@ pip install jupyterlab
 
 <br>
 
-### Pandas
-Pandas is an open-source, BSD-licensed library providing high-performance easy-to-use data structures and data analysis tools for the Python programming language. [[Pandas Overview](https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html)]
+### pandas
+pandas is an open source, BSD-licensed library providing high-performance, easy-to-use data structures and data analysis tools for the Python programming language. [[Pandas Overview](https://pandas.pydata.org/pandas-docs/stable/getting_started/index.html)]
 
 
 #### Installation
@@ -163,7 +192,7 @@ conda install pandas
 <br>
 
 ### NumPy
-NumPy is a fundamental package for scientific computing with Python [[Numpy Overview](https://numpy.org/)]
+The fundamental package for scientific computing with Python [[Numpy Overview](https://numpy.org/)]
 
 #### Installation
 ```python
@@ -183,7 +212,7 @@ python -m pip install --user scipy ipython sympy nose
 <br>
 
 ### Panel
-Panel is a high-level app and dashboarding solution for Python [[Holoviz Panel Overview](https://panel.holoviz.org/)]
+A high-level app and dashboarding solution for Python [[Holoviz Panel Overview](https://panel.holoviz.org/)]
 
 #### Installation
 ```python
@@ -193,7 +222,7 @@ conda install -c pyviz panel
 <br>
 
 ### Plotly
-Plotly is interactive charts and maps for Python, R, and JavaScript. [[Plotly Overview](https://plotly.com/python/getting-started/)]
+Interactive charts and maps for Python, R, and JavaScript. [[Plotly Overview](https://plotly.com/python/getting-started/)]
 
 #### Installation
 Plotly must be installed inside the environment where it is meant to be used.
@@ -213,7 +242,7 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.
 <br>
 
 ### hvPlot
-hvPlot is a high-level plotting API for the PyData ecosystem built on HoloViews. [[hvPLot Overview]](https://hvplot.holoviz.org/)
+A high-level plotting API for the PyData ecosystem built on HoloViews. [[hvPLot Overview]](https://hvplot.holoviz.org/)
 
 <img src="images/hvplot.png" width="500" title="stock_flex">
 
@@ -266,7 +295,7 @@ pip install alpaca-trade-api
 <br>
 
 ### Quandl
-Quandl is the premier source for financial, economic and alternative datasets, serving investment professionals. Nasdaq’s Quandl platform is used by analysts from the world’s top hedge funds, asset managers and investment banks. [[Quandl API Overview](https://www.quandl.com/docs-and-help)]. 
+The premier source for financial, economic and alternative datasets, serving investment professionals. Nasdaq’s Quandl platform is used by analysts from the world’s top hedge funds, asset managers and investment banks. [[Quandl API Overview](https://www.quandl.com/docs-and-help)]. 
 
 *A user API key is required.*
 
@@ -280,7 +309,7 @@ conda install -c anaconda quandl
 <br>
 
 ### FinnHub
-FinnHub is Real-Time Restful APIs and Websocket for Stocks, Currencies, and Crypto. [[FinnHub API Overview](https://finnhub.io/docs/api/introduction)]
+Real-Time RESTful APIs and Websocket for Stocks, Currencies, and Crypto. [[FinnHub API Overview](https://finnhub.io/docs/api/introduction)]
 
 *A user API key is required.*
 
@@ -297,7 +326,7 @@ pip install finnhub-python
 ### Data Connections
 Data connections in the Powerfolio! Dashboard are provided by [Alpaca](https://alpaca.markets/docs/), [Quandl](https://www.quandl.com/docs-and-help), and [Finnhub](https://finnhub.io/docs/api/introduction).
 
-* The securities for analysis are presented in a <code>.csv</code> file stored locally. 
+* The securities for analysis are presented in a <code>.csv</code> file store locally. 
 * Alpaca Trade API provides marker High, Low, Open, Close and Volume data. An API key is required. The API calls are performed live.
 * Quandl API provides risk-free-rate data for Sharpe Ratio calculation
 * FinnHub provides fundamental data. The data is stored locally in a <code>.csv</code> sheet and needs to be updated periodically.
@@ -330,19 +359,26 @@ In order to reference the API keys enter the filepath of your <code>.env</code> 
 <img src="images/data_connector_path.png" width="600" title="stock_flex">
     
     
-In order to properly load API keys using <code>dotenv</code> library, the key names in the file must be:
+In order to properly load API keys using <code>dotenv</code> library the key names in the file must be:
  
-<code>
-ALPACA_API_KEY
-ALPACA_SECRET_KEY
-FINNHUB_API_KEY
-</code>
+
+| API Key Type                | .env variable     |
+|-----------------------------|-------------------|
+| Alpaca Trade API key        | ALPACA_API_KEY    |
+| Alpaca Trade API secret key | ALPACA_SECRET_KEY |
+| FinnHub API key             | FINNHUB_API_KEY   |
+    
+<br>
 
 
 ### FinnHub Data Refresh
 FinnHub data is stored locally in a <code>.csv</code> and can be refreshed on the Welcome page of the Dashboard:
 
 <img src="images/data_refresh.png" width="400" title="stock_flex">
+
+<br>
+
+---
 
 
 ## Computational Methods
@@ -367,7 +403,7 @@ The selection criteria for the model portfolio are:
 Pressing the <code>Apply selection</code> button refreshes the **Filtered Stocks** Dataframe and plots the model fundamental portfolio.
 **Filtered Stocks** Dataframe is sortable and interactive.
 
-Pressing the <code>Refresh</code> button clears the **Filtered Stocks** Dataframe.
+Pressing <code>Refresh</code> button clears the **Filtered Stocks** Dataframe.
 
 <br>
 
@@ -388,10 +424,10 @@ The model fundamental portfolio is displayed on the right side of the Dashboard.
 
 
 ### RSI Trader
-Powerfolio! utilizes [Relative Strength Index (RSI)](#technical-analysis) in order to build a model-based portfolio. The strategy is based solely on “crossover” signals derived from the RSI values. The strategy will buy a position when RSI crosses upward the oversold level and will trigger a sell signal when it crosses the overbought signal downward. Generally an RSI value of 30% is considered oversold and RSI value of 70% is considered overbought. However the user can select different values for the oversold/overbought levels.
+Powerfolio! utilizes [Relative Strength Index (RSI)](#technical-analysis) in order to build a model-based portfolio. The strategy is based solely on “crossovers” signals derived from the RSI values. The strategy will buy/close a position while crossing upward the oversold level and will trigger a sell/close signal while crossing the overbought signal downward. Generally an RSI value of 30 is considered oversold and RSI value of 70 is considered overbought. However the user can select different values for the oversold/overbought levels.
 Typically RSI is used while scanning divergences but we haven’t explored this path yet.
 
-RSI Trader GUI allows the user to enter the lower and upper RSI bounds as well as the number of days for the moving average.
+RSI Trader GUI allows user to enter the lower and upper RSI bounds as well as the number of days for the moving average.
 
 The selection criteria for the model portfolio are:
 
@@ -410,7 +446,7 @@ The selection criteria for the model portfolio are:
 <br>
 
 
-The resulting plot shows the RSI Trader simulated portfolio in addition to model fundamental portfolio. This allows the user to compare the portfolios on one plot. The RSI Trader GUI allows the user to change input selection and generate additional portfolios in order to best compare different trade entry and exit points.
+The resulting plot shows the RSI Trader simulated portfolio in addition to model fundamental portfolio. This allows the user to compare the portfolios on one plot. The RSI Trader GUI allows user to change input selection and generate additional portfolios in order to best compare different trade entry and exit points.
 
 *RSI Builder result*:
 
@@ -431,7 +467,7 @@ It provides the user with:
 
 > MACD
 
-The user can select the tickers for the securities within their portfolio in the drop-down menu on the top left side of the screen by pressing the <code>View Technical Indicators</code> button.
+The user can select the tickers for the securities within their portfolio in the drop-down menu on the top left side of the screen and pressing the <code>View Technical Indicators</code> button.
 
 *Technical Analysis GUI and result:*
 
@@ -441,21 +477,21 @@ The user can select the tickers for the securities within their portfolio in the
 
 
 ### Efficient Frontier Results
-TODO: Description
+Efficient Frontier tab allows user to model an efficient portfolio and compare it to the Fundamental Model Portfolio that the user hasa generated previously.
 
 
-*Efficient Frontier GUI*:
+*Efficient Frontier GUI and results*:
 
-<img src="images/efficient_frontier.png" width="800" title="stock_flex">
+<img src="images/efficient_front.png" width="800" title="stock_flex">
 
 
 ### Hierarchical Clustering Results
-TODO: Description
+...
 
 
-*Hierarchical Clustering GUI*:
+*Hierarchical Clustering result*:
 
-<img src="images/hierarchical_clustering.png" width="800" title="stock_flex">
+<img src="images/hierarchical_portfolio_allocation.png" width="800" title="stock_flex">
 
 
 
