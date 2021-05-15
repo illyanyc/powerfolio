@@ -26,9 +26,9 @@ Creators:
 * [Computational Methods](#computational-methods)
     * [Fundamental and Technical Portfolio Builder](#fundamental-and-technical-portfolio-builder)
     * [RSI Trader](#rsi-trader)
-    * [Technical Analysis](#technical-analysis)
-    * [Efficient Frontier](#efficient-frontier)
-    * [Hierarchical Clustering](#hierarchical-clustering)
+    * [Technical Analysis Viewer](#technical-analysis-viewer)
+    * [Efficient Frontier Results](#efficient-frontier-results)
+    * [Hierarchical Clustering Results](#hierarchical-clustering-results)
 
 ---
 
@@ -173,7 +173,7 @@ conda install numpy
 <br>
 
 ### Scipy
-SciPy is a Python-based ecosystem of open-source software for mathematics, science, and engineering. [Scipy Overview](https://www.scipy.org/install.html)
+SciPy is a Python-based ecosystem of open-source software for mathematics, science, and engineering. [[Scipy Overview](https://www.scipy.org/install.html)]
 
 #### Installation
 ```python
@@ -231,7 +231,7 @@ jupyter labextension install @pyviz/jupyterlab_pyviz
 <br>
 
 ### Seaborn
-Seaborn is a Python data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics. [Seaborn Overview](https://seaborn.pydata.org/installing.html)
+Seaborn is a Python data visualization library based on matplotlib. It provides a high-level interface for drawing attractive and informative statistical graphics. [[Seaborn Overview](https://seaborn.pydata.org/installing.html)]
 
 #### Installation
 ```python
@@ -253,17 +253,24 @@ conda install matplotlib
 <br>
 
 ### Alpaca Trade API
-Alpaca is a technology company headquartered in Silicon Valley that builds commission-free stock trading API (Brokerage services are provided by Alpaca Securities LLC, member FINRA/SIPC) [[Alpaca Trade API Overview](https://alpaca.markets/docs/)]. *A user API key is required.*
+Alpaca is a technology company headquartered in Silicon Valley that builds commission-free stock trading API (Brokerage services are provided by Alpaca Securities LLC, member FINRA/SIPC) [[Alpaca Trade API Overview](https://alpaca.markets/docs/)]. 
+
+*A user API key is required.*
+
+<br>
 
 #### Installation
 ```python
 pip install alpaca-trade-api
 ```
-
 <br>
 
 ### Quandl
-The premier source for financial, economic and alternative datasets, serving investment professionals. Nasdaq’s Quandl platform is used by analysts from the world’s top hedge funds, asset managers and investment banks. [[Quandl API Overview](https://www.quandl.com/docs-and-help)]. *A user API key is required.*
+The premier source for financial, economic and alternative datasets, serving investment professionals. Nasdaq’s Quandl platform is used by analysts from the world’s top hedge funds, asset managers and investment banks. [[Quandl API Overview](https://www.quandl.com/docs-and-help)]. 
+
+*A user API key is required.*
+
+<br>
 
 #### Installation
 ```python
@@ -273,7 +280,9 @@ conda install -c anaconda quandl
 <br>
 
 ### FinnHub
-Real-Time RESTful APIs and Websocket for Stocks, Currencies, and Crypto. [FinnHub API Overview](https://finnhub.io/docs/api/introduction) *A user API key is required.*
+Real-Time RESTful APIs and Websocket for Stocks, Currencies, and Crypto. [[FinnHub API Overview](https://finnhub.io/docs/api/introduction)]
+
+*A user API key is required.*
 
 #### Installation
 ```python
@@ -409,7 +418,7 @@ The resulting plot shows the RSI Trader simulated portfolio in addition to model
 
 <br>
 
-### Technical Analysis
+### Technical Analysis Viewer
 Technical Analysis tab contains a tool that allows the user to view technical indicators for each of the securities in the Fundamental/Technical Portfolio that was generated on the previous tab. 
 
 It provides the user with:
@@ -431,7 +440,7 @@ The user can select the tickers for the securities within their portfolio in the
 <br>
 
 
-### Efficient Frontier
+### Efficient Frontier Results
 TODO: Description
 
 
@@ -440,7 +449,7 @@ TODO: Description
 <img src="images/efficient_frontier.png" width="800" title="stock_flex">
 
 
-### Hierarchical Clustering
+### Hierarchical Clustering Results
 TODO: Description
 
 
