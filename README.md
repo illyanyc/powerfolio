@@ -114,19 +114,48 @@ MACD is used by traders to indicate bullish and bearish reversals when the EMA t
 
 ## Traditional Analysis
 ### Sharpe Ratio
+[Sharpe Ratio](https://www.investopedia.com/terms/s/sharperatio.asp) allows user understand the return of an investment compared to the risk of the investment. Sharpe Ratio is the average return earned above the risk-free rate compared to volitility of the investment. [Volatility](https://www.investopedia.com/terms/v/volatility.asp) is a measure of the price fluctuations of an asset or portfolio. The Sharpe ratio was developed by Nobel laureate [William F. Sharpe](https://en.wikipedia.org/wiki/William_F._Sharpe) in 1966. 
+
 
 <br>
 
+<img src="images/sharpe_ratio.png" width="300" title="rsi_plot_example">
+
+where:
+
+* *R<sub>p</sub>* = return of portfolio
+* *R<sub>f</sub>* = risk-free rate
+* *σ<sub>p</sub>* = standard deviation of the portfolio’s excess return
+
+
+Subtracting the risk-free rate from the retuns allows the user to isolate the profits from the cost of money. The risk-free rate of return usually identified by the [10-year U.S. Government Bond Yield](https://www.treasury.gov/resource-center/data-chart-center/interest-rates/Pages/TextView.aspx?data=yield), although in some instances risk-free rate may be identified as passive returns from investment in an index such as S&P 500, as that kind of investment may be considered the true cost of money.
+
+Greater Sharpe Ratio is accosiated with a greater rist-adjusted return.
+<br>
+
 ### Efficient Frontier
+The [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.asp) is the collection of portfolios optimized for the highest expected return normalized to a specified level of risk. Portfolios that lie below the efficient frontier are sub-optimal because they do not provide enough return for the level of risk. Portfolios that cluster to the right of the efficient frontier are sub-optimal because they have a higher level of risk for the defined rate of return.
+
+*The plot was taken from [TheWealthyFinn.com](https://www.thewealthyfinn.com/2019/07/risk-return-modern-portfolio-theory.html):*
+
+<img src="images/efficient_frontier_example.png" width="550" title="rsi_plot_example">
+
+<br>
+
+[Harry Markowitz](https://en.wikipedia.org/wiki/Harry_Markowitz) has introduced the Efficient Frontier in 1952 and made it the cornerstone of [modern portfolio theory](https://www.investopedia.com/terms/m/modernportfoliotheory.asp) (MPT).
 
 <br>
 
 
 ### Hierarchical Clustering
+Hierarchial Rist Clustering utilizes [hierarchial risk parity](https://quantpedia.com/hierarchical-risk-parity/) ...
+
+*The plot was taken from [QuantPedia.com](https://quantpedia.com/hierarchical-risk-parity/):*
+
+<img src="images/hierarchial_risk_parity.jpg" width="550" title="rsi_plot_example">
+
 
 <br>
-
-
 <br>
 
 ---
@@ -332,17 +361,24 @@ In order to reference the API keys enter the filepath of your <code>.env</code> 
     
 In order to properly load API keys using <code>dotenv</code> library the key names in the file must be:
  
-<code>
-ALPACA_API_KEY
-ALPACA_SECRET_KEY
-FINNHUB_API_KEY
-</code>
+
+| API Key Type                | .env variable     |
+|-----------------------------|-------------------|
+| Alpaca Trade API key        | ALPACA_API_KEY    |
+| Alpaca Trade API secret key | ALPACA_SECRET_KEY |
+| FinnHub API key             | FINNHUB_API_KEY   |
+    
+<br>
 
 
 ### FinnHub Data Refresh
 FinnHub data is stored locally in a <code>.csv</code> and can be refreshed on the Welcome page of the Dashboard:
 
 <img src="images/data_refresh.png" width="400" title="stock_flex">
+
+<br>
+
+---
 
 
 ## Computational Methods
@@ -441,21 +477,21 @@ The user can select the tickers for the securities within their portfolio in the
 
 
 ### Efficient Frontier Results
-TODO: Description
+Efficient Frontier tab allows user to model an efficient portfolio and compare it to the Fundamental Model Portfolio that the user hasa generated previously.
 
 
-*Efficient Frontier GUI*:
+*Efficient Frontier GUI and results*:
 
 <img src="images/efficient_front.png" width="800" title="stock_flex">
 
 
 ### Hierarchical Clustering Results
-TODO: Description
+...
 
 
-*Hierarchical Clustering GUI*:
+*Hierarchical Clustering result*:
 
-<img src="images/hierarchical_clustering.png" width="800" title="stock_flex">
+<img src="images/hierarchical_portfolio_allocation.png" width="800" title="stock_flex">
 
 
 
