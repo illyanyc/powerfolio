@@ -43,13 +43,13 @@ Powerfolio! implements fundamental analysis, technical analysis and tradiational
 #### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-<img src="images/pe_ratio.gif" height="300" title="stock_flex">
+<img src="images/pe_ratio.gif" width="150" title="stock_flex">
 <br>
 
 #### EPS - Earnings per Share
 [Earnings per share (EPS)](https://www.investopedia.com/terms/e/eps.asp) is generally calculated by dividing company's profit by the outstanding shares of its common stock. EPS is a general way for a company to report it's profitability adjusted to it's marker capitalization. It is one of the general ways to evaluate corporate earnings.
 
-<img src="images/eps.gif" height="300" title="stock_flex">
+<img src="images/eps.gif" width="350" title="stock_flex">
 <br>
 
 #### Dividnend
@@ -65,9 +65,9 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 
 *Formulas were obtained from [Investopedia](https://www.investopedia.com/terms/r/rsi.asp)*
 
-<img src="images/rsi_1.png" height="300" title="stock_flex">
+<img src="images/rsi_1.png" width="320" title="stock_flex">
 
-<img src="images/rsi_2.png" height="300" title="stock_flex">
+<img src="images/rsi_2.png" width="500" title="stock_flex">
 <br>
 
 
