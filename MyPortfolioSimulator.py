@@ -1,7 +1,12 @@
+"""
+TODO: Documentation.
+"""
 import numpy as np
-from pandas import DataFrame, MultiIndex
+import enum
+from pandas import read_csv, DataFrame, MultiIndex
 from typing import List, NewType
 from dataclasses import dataclass
+from pathlib import Path
 from scipy.optimize import minimize
 
 
@@ -31,6 +36,14 @@ class PortfolioOptimizationResult:
             f"periods_per_annum: {self.periods_per_annum}\n"
             f"sharpe_ratio: {self.sharpe_ratio}\n"
         )
+
+
+class InterestingPortfolios(enum.IntEnum):
+    """ Helper class to keep results for interesting portfolios straight! """
+    MINIMUM_VARIANCE = 0
+    MAXIMUM_SHARPE = 1
+    EQUAL_WEIGHT = 2
+    NPORTFOLIOS = enum.auto()
 
 
 def get_tickers(df_alpaca: DataFrame, column_level: int = 0) -> Tickers:
@@ -171,6 +184,200 @@ def get_neg_portfolio_sharpe_ratio_for_scipy(
     )
 
 
+class TraditionalPortfolioAnalyzer:
+    """
+    """
+
+    def __init__(
+        self,
+        ohlcv_data_path=Path('resources/price_data.csv'),
+        tickers_of_interest: List[str] = None,
+        risk_free_rate: float = 0.0,
+        periods_per_annum: int = 252,
+        debug: bool = True,
+    ):
+        self.load_ohlcv_data(ohlcv_data_path)
+        
+        self.risk_free_rate = risk_free_rate
+        self.periods_per_annum = periods_per_annum
+        self.debug = debug
+
+        # Pick a few tickers if None is provided
+        if tickers_of_interest is None:
+            nbest_sharpe = 8
+            self.set_tickers_of_interest(self.df_sharpe_ratios.droplevel(1, axis=1).squeeze().sort_values(ascending=True).dropna()[-nbest_sharpe:].index.tolist())
+        
+        # Get outta here
+        return None
+
+    def load_ohlcv_data(self, ohlcv_data_path: Path) -> None:
+        """ Helper function to load raw {Open, High, Low, Close, Volume} data. """
+        # Load raw data
+        self.ohlcv_data_path = ohlcv_data_path
+        df = read_csv(ohlcv_data_path, header=[0, 1], index_col=0, parse_dates=True, infer_datetime_format=True)
+
+        # Calculate and cache other data (for fash dashboard)
+        self.df_returns = get_log_returns(df)
+        self.df_returns_mean = self.df_returns.mean(axis=0)
+        self.df_returns_corr = self.df_returns.droplevel(1, axis=1).corr()
+        self.df_returns_cov = self.df_returns.droplevel(1, axis=1).cov()
+        self.df_sharpe_ratios = get_sharpe_ratios(df)
+        return None
+
+    def set_tickers_of_interest(self, tickers_of_interest: List[str]) -> None:
+        self.tickers_of_interest = tickers_of_interest
+        return None
+
+    def get_tickers_of_interest(self) -> List[str]:
+        return self.tickers_of_interest
+    
+    def get_returns_vector(self):
+        tickers = self.tickers_of_interest
+        return self.df_returns_mean[tickers].to_numpy()
+
+    def get_covariance_matrix(self):
+        tickers = self.tickers_of_interest
+        return self.df_returns_cov.loc[tickers, tickers].to_numpy()
+
+    def get_correlation_matrix(self):
+        tickers = self.tickers_of_interest
+        return self.df_returns_corr.loc[tickers, tickers]
+
+    def get_distance_matrix(self):
+        return np.sqrt(0.5 * (1.0 - self.get_correlation_matrix()))
+    
+    def run_traditional_portfolio_analysis(self, num_simulations: int = 4):
+        """
+        """
+        # Here's what we're calculating
+        self.sim_results = []
+
+        # Run simulations
+        for nsim in range(num_simulations):
+            # Cache quantities used below
+            weights = self._get_random_initial_weights()
+            returns_vector = self.get_returns_vector()
+            covariance_matrix = self.get_covariance_matrix()
+            portfolio_return = get_portfolio_return(weights=weights, expected_returns=returns_vector, periods_per_annum=self.periods_per_annum)
+            portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=self.periods_per_annum)
+            portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
+                weights=weights,
+                expected_returns=returns_vector,
+                covariance_matrix=covariance_matrix,
+                risk_free_rate=self.risk_free_rate,
+                periods_per_annum=self.periods_per_annum,
+            )
+            # Append results to list
+            self.sim_results.append(
+                PortfolioOptimizationResult(
+                    tickers = self.tickers_of_interest,
+                    weights = weights,
+                    expected_return = portfolio_return,
+                    expected_variance = portfolio_variance,
+                    periods_per_annum = self.periods_per_annum,
+                    sharpe_ratio = portfolio_sharpe_ratio,
+                )
+            )
+
+        # Combine results into dataframe
+        nsims = range(num_simulations)
+        return DataFrame({
+            'expected_return': [self.sim_results[n].expected_return for n in nsims],
+            'expected_variance': [self.sim_results[n].expected_variance for n in nsims],
+            'sharpe_ratio': [self.sim_results[n].sharpe_ratio for n in nsims]
+        })
+    
+    def get_equal_weight_portfolio(self) -> PortfolioOptimizationResult:
+        ntickers = len(self.tickers_of_interest)
+        weights = np.full(ntickers, (1.0 / ntickers))
+        returns_vector = self.get_returns_vector()
+        covariance_matrix = self.get_covariance_matrix()
+        portfolio_return = get_portfolio_return(weights=weights, expected_returns=returns_vector, periods_per_annum=self.periods_per_annum)
+        portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=self.periods_per_annum)
+        portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
+            weights=weights,
+            expected_returns=returns_vector,
+            covariance_matrix=covariance_matrix,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+        return PortfolioOptimizationResult(
+            tickers = self.tickers_of_interest,
+            weights = weights,
+            expected_return = portfolio_return,
+            expected_variance = portfolio_variance,
+            periods_per_annum = self.periods_per_annum,
+            sharpe_ratio = portfolio_sharpe_ratio,
+        )
+    
+    def get_minimum_variance_portfolio_try2(self):
+        return None
+    
+    def get_minimum_variance_portfolio(self) -> PortfolioOptimizationResult:
+        # Cache quantities and define shorthands
+        covariance_matrix = self.get_covariance_matrix()
+        ftol = np.mean(covariance_matrix) / 1e5  # precision of optimization
+        args = (covariance_matrix, ftol)
+
+        # Perform optimization
+        opt_res = minimize(
+            get_portfolio_variance,
+            x0 = self._get_random_initial_weights(),
+            bounds = self._get_weight_bounds_for_scipy(),
+            constraints = self._get_weight_constraint_for_scipy(),
+            args = args,
+            method = 'SLSQP',
+            options = {
+                'ftol': ftol,
+                'maxiter': 1e4,
+            }
+        )
+        # Check that the optimization terminated successfully
+        if not opt_res.success:
+            raise RuntimeError(f"Optimization did not terminate successfully!")
+
+        # Get optimal weights
+        weights = opt_res.x
+        if not np.isclose(np.sum(np.abs(weights)), 1.0):
+            raise RuntimeError(f"sum(|weights|) do not total unity!")
+        
+        # Now that we have the weights, calculate expected return, variance, etc.
+        returns_vector = self.get_returns_vector()
+        portfolio_return = get_portfolio_return(weights=weights, expected_returns=returns_vector, periods_per_annum=self.periods_per_annum)
+        portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=self.periods_per_annum)
+        portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
+            weights=weights,
+            expected_returns=returns_vector,
+            covariance_matrix=covariance_matrix,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+        # Return the result
+        return PortfolioOptimizationResult(
+            tickers = self.tickers_of_interest,
+            weights = weights,
+            expected_return = portfolio_return,
+            expected_variance = portfolio_variance,
+            periods_per_annum = self.periods_per_annum,
+            sharpe_ratio = portfolio_sharpe_ratio,
+        )
+
+    def _get_random_initial_weights(self) -> Weights:
+        ntickers = len(self.tickers_of_interest)
+        weights = np.random.random(ntickers)
+        weights /= np.sum(np.abs(weights))
+        return weights
+    
+    def _get_weight_bounds_for_scipy(self):
+        return ((0, 1), ) * len(self.tickers_of_interest)
+
+    def _get_weight_constraint_for_scipy(self):
+        return {
+            'type': 'eq',
+            'fun': lambda weights: np.sum(np.abs(weights)) - 1
+        }
+
+
 class MyPortfolioSimulator:
     """
     """
@@ -198,10 +405,10 @@ class MyPortfolioSimulator:
         self.tickers = get_tickers(self.df_sharpe_ratios.to_frame().T)
 
         # Calculate expected returns and covariance
-        df_returns = get_log_returns(df_alpaca.loc[:, (self.tickers, self.input_label)])
-        df_returns.columns = self.tickers
-        self.df_returns_mean = df_returns.mean(axis=0)  # daily
-        self.df_returns_cov = df_returns.cov()  # daily
+        self.df_returns = get_log_returns(df_alpaca.loc[:, (self.tickers, self.input_label)])
+        self.df_returns.columns = self.tickers
+        self.df_returns_mean = self.df_returns.mean(axis=0)  # daily
+        self.df_returns_cov = self.df_returns.cov()  # daily
 
         # Inform user
         if self.debug:
@@ -404,6 +611,74 @@ class MyPortfolioSimulator:
             self.results.append(result)
         return self.results
 
+    def get_efficient_frontier(self, num_simulations: int = 51) -> List[PortfolioOptimizationResult]:
+
+        def _return_constraint_fcn(weights):
+            return get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum)
+
+        # Determine constraints
+        if self.allow_shorts:
+            min_return = -self.df_returns_mean.abs().max() / 2
+            max_return =  self.df_returns_mean.abs().max() / 2
+        else:
+            min_return = self.df_returns_mean.min() / 1
+            max_return = self.df_returns_mean.max() / 2
+
+        return_constraints = np.linspace(min_return, max_return, num=(num_simulations + 2))[1:-1]
+
+
+        covmat = self.df_returns_cov.to_numpy()
+        ftol = np.mean(covmat) / 1e4
+        args = (covmat, self.periods_per_annum)
+
+        efficient_frontier = []
+
+        target_returns = return_constraints  * self.periods_per_annum
+
+        for target_return in target_returns:
+
+            print(f"target_return: {target_return}")
+
+            opt_res = minimize(
+                get_portfolio_variance,
+                x0 = self._get_random_initial_weights(),
+                bounds = self._get_weight_bounds_for_scipy(),
+                constraints = [
+                    self._get_weight_constraint_for_scipy(),
+                    {'type': 'eq', 'fun': lambda w: _return_constraint_fcn(w) - target_return}
+                ],
+                args = args,
+                method = 'SLSQP',
+                options = {
+                    'ftol': ftol,
+                    'maxiter': 1e4,
+                }
+            )
+
+            # Check that the optimization terminated successfully
+            if not opt_res.success:
+                raise RuntimeError(f"Optimization did not terminate successfully!")
+
+            # Get optimal weights
+            weights = opt_res.x
+            if not np.isclose(np.sum(np.abs(weights)), 1.0):
+                raise RuntimeError(f"sum(|weights|) do not total unity!")
+
+            # Add this portfolio to the efficient frontier
+            efficient_frontier.append(
+                PortfolioOptimizationResult(
+                    descrip = 'Constrained-Mean Portfolio',
+                    tickers = self.tickers,
+                    weights = weights,
+                    expected_return = get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum),
+                    expected_variance = get_portfolio_variance(weights=weights, covariance_matrix=self.df_returns_cov, periods_per_annum=self.periods_per_annum),
+                    periods_per_annum = self.periods_per_annum,
+                    sharpe_ratio = 'TODO',
+                )
+            )
+
+        # Return the results
+        return efficient_frontier
 
 
 def test():
