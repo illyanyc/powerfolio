@@ -21,7 +21,6 @@ Creators:
    * [Traditional](#tradiational)
 * [Installation](#installation)
 * [Results](#results)
-* [References](#references)
 ---
 
 
@@ -31,29 +30,14 @@ Creators:
 **Powerfolio!** is screener, portfolio builder and analyzer for S&P 500 securities.
 Powerfolio! implements fundamental analysis, technical analysis and tradiational portfolio analysis methods such as Sharpe Ratio and Efficient Frontier in order to allow you to select the best *power*-folio for your financial needs.
 
+<img src="images/powerfolio_welcome.png" width="800" title="stock_flex">
+
+<br>
+
+---
 
 
 ## Theory
-### Technical Analysis
-#### RSI - Relative Strenght Index
-[Relative Strenght Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI is a technical indicator used to determine is a particular security is overbought or oversold. It measures the magnitude of price change of the asset; and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
-
-*Formulas were obtained from [Investopedia](https://www.investopedia.com/terms/r/rsi.asp)*
-
-<img src="images/rsi_1.png" height="300" title="stock_flex">
-
-<img src="images/rsi_2.png" height="300" title="stock_flex">
-<br>
-
-
-
-#### MACD
-
-
-
-#### Bollinger Bands
-
-
 
 ## Fundamental Analysis
 #### P/E - Price to Earnings Ratio
@@ -72,10 +56,39 @@ The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/p
 A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribution of a company's earnings to its shareholders. Dividents are paid directly to shareholders of the comapany on periodic basis and the amout is determined by the board of directors.
 <br>
 <br>
+
+
+
+## Technical Analysis
+#### RSI - Relative Strenght Index
+[Relative Strenght Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI is a technical indicator used to determine is a particular security is overbought or oversold. It measures the magnitude of price change of the asset; and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
+
+*Formulas were obtained from [Investopedia](https://www.investopedia.com/terms/r/rsi.asp)*
+
+<img src="images/rsi_1.png" height="300" title="stock_flex">
+
+<img src="images/rsi_2.png" height="300" title="stock_flex">
+<br>
+
+
+
+#### MACD
+[Moving average convergence divergence (MACD)](https://www.investopedia.com/terms/m/macd.asp) is a trend-following momentum indicator that shows the relationship between two moving averages of a security’s price. The MACD is calculated by subtracting the 26-period exponential moving average (EMA) from the 12-period EMA.
+
+
+<img src="images/macd.png" width="400" title="stock_flex">
+
+[Expoenential moving average]((https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
+In statistics, a moving average (MA), also known as simple moving average (SMA) in finance, is a calculation used to analyze data points by creating a series of averages of different subsets of the full data set. 
+<br>
+
+
+
+
 ## Traditional Analysis
 #### Sharpe Ratio
 
-
+<br><br>
 ---
 
 ## Installation
@@ -185,9 +198,49 @@ Real-Time RESTful APIs and Websocket for Stocks, Currencies, and Crypto. [[FinnH
 ```python
 pip install finnhub-python
 ```
+
+<br>
+
 ---
 
 ## Computation Methods
 
+### Fundemantal and Technical Portfolio Builder
+
+<img src="images/fund_builder_1.png" width="800" title="stock_flex">
+
+<br>
+
+<img src="images/fund_builder_2.png" width="500" title="stock_flex">
+
+<br>
+
+
+
 ### RSI Trader
-Powerfolio! utilzes [Relative Strenght Index (RSI)](#technical-analysis) in order to build a model portfolio built on trade entry and exit based on RSI values. Generally an RSI value of 30 is considered oversold and RSI value of 70 is considered overbought.
+Powerfolio! utilzes [Relative Strenght Index (RSI)](#technical-analysis) in order to build a model-based portfolio. The strategy is based solely on “crossovers” signals derived from the RSI values. The strategy will buy/close a position while crossing upward the oversold level and will trigger a sell/close signal while crossing the overbought signal downward. Generally an RSI value of 30 is considered oversold and RSI value of 70 is considered overbought. However the user can select different values for the oversold/overbought levels.
+Typically RSI is used while scanning divergences but we haven’t explored this path yet.
+
+RSI Trader GUI allows user to enter the lower and upper RSI bounds as well as the number of days for the moving average.
+
+<img src="images/rsi_trader_1.png" width="600" title="stock_flex">
+
+<br>
+
+The resulting plot shows the model portfolio of the securites selected in fundamental screener, if those securities were traded based on RSI.
+
+
+<img src="images/rsi_trader_2.png" width="500" title="stock_flex">
+
+<br>
+
+
+
+<br>
+
+---
+
+## 
+
+<br>
+<br>
