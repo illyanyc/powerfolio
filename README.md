@@ -16,11 +16,12 @@ Creators:
 
 * [Overview](#overview)
 * [Theory](#theory)
-   * [Technical](#technical)
-   * [Fudamental](#fundamental)
-   * [Traditional](#tradiational)
+   * [Fudamental Analysis](#fundamental-analysis)
+   * [Technical Analysis](#technical-analysis)
+   * [Traditional Analysis](#tradiational-analysis)
 * [Installation](#installation)
-* [Results](#results)
+* [APIs](#apis)
+* [Computational Methods](#computational-methods)
 ---
 
 
@@ -43,13 +44,17 @@ Powerfolio! implements fundamental analysis, technical analysis and tradiational
 #### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-<img src="images/pe_ratio.gif" width="150" title="stock_flex">
+*Formula was obtained from [Investopedia](https://www.investopedia.com/terms/p/price-earningsratio.asp)*
+
+<img src="images/pe_ratio.png" width="260" title="stock_flex">
 <br>
 
 #### EPS - Earnings per Share
 [Earnings per share (EPS)](https://www.investopedia.com/terms/e/eps.asp) is generally calculated by dividing company's profit by the outstanding shares of its common stock. EPS is a general way for a company to report it's profitability adjusted to it's marker capitalization. It is one of the general ways to evaluate corporate earnings.
 
-<img src="images/eps.gif" width="350" title="stock_flex">
+*Formula was obtained from [Investopedia](https://www.investopedia.com/terms/e/eps.asp)*
+
+<img src="images/eps.png" width="240" title="stock_flex">
 <br>
 
 #### Dividnend
@@ -78,7 +83,7 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 
 <img src="images/macd.png" width="400" title="stock_flex">
 
-[Expoenential moving average]((https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
+[Expoenential moving average](https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
 In statistics, a moving average (MA), also known as simple moving average (SMA) in finance, is a calculation used to analyze data points by creating a series of averages of different subsets of the full data set. 
 <br>
 
@@ -124,26 +129,6 @@ conda install -c pyviz panel
 ```
 
 
-
-### SQLite
-SQLite is a self-contained, high-reliability, embedded, full-featured, public-domain, SQL database engine. [[SQLite Overview](https://anaconda.org/anaconda/sqlite)]
-
-#### Installation
-```python
-conda install -c anaconda sqlite
-```
-
-
-
-### SQLAlchemy
-SQLAlchemy is the Python SQL toolkit and Object Relational Mapper that gives application developers the full power and flexibility of SQL. [[SQLAlchemy Overview](https://www.sqlalchemy.org/)]
-
-#### Installation
-```python
-conda install -c anaconda sqlalchemy
-```
-
-
 ### Plotly
 Interactive charts and maps for Python, R, and JavaScript. [[Plotly Overview](https://plotly.com/python/getting-started/)]
 
@@ -162,7 +147,24 @@ jupyter labextension install jupyterlab-plotly@4.14.3
 jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.14.3
 ```
 
+### hvPlot
+A high-level plotting API for the PyData ecosystem built on HoloViews.
 
+<img src="images/hvplot.png" width="500" title="stock_flex">
+
+
+#### Installation
+```python
+conda install -c pyviz hvplot
+```
+
+For Jupyter Notebook support:
+```python
+jupyter labextension install @pyviz/jupyterlab_pyviz
+```
+<br>
+
+## APIs
 
 ### Matplotlib
 Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. [[Matplotlib Overview](https://matplotlib.org/)]
