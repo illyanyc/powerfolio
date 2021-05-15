@@ -26,9 +26,9 @@ Creators:
 * [Computational Methods](#computational-methods)
     * [Fundamental and Technical Portfolio Builder](#fundamental-and-technical-portfolio-builder)
     * [RSI Trader](#rsi-trader)
-    * [Technical Analysis](#technical-analysis)
-    * [Efficient Frontier](#efficient-frontier)
-    * [Hierarchical Clustering](#hierarchical-clustering)
+    * [Technical Analysis Viewer](#technical-analysis-viewer)
+    * [Efficient Frontier Results](#efficient-frontier-results)
+    * [Hierarchical Clustering Results](#hierarchical-clustering-results)
 
 ---
 
@@ -409,7 +409,7 @@ The resulting plot shows the RSI Trader simulated portfolio in addition to model
 
 <br>
 
-### Technical Analysis
+### Technical Analysis Viewer
 Technical Analysis tab contains a tool that allows the user to view technical indicators for each of the securities in the Fundamental/Technical Portfolio that was generated on the previous tab. 
 
 It provides the user with:
@@ -431,7 +431,7 @@ The user can select the tickers for the securities within their portfolio in the
 <br>
 
 
-### Efficient Frontier
+### Efficient Frontier Results
 TODO: Description
 
 
@@ -440,7 +440,7 @@ TODO: Description
 <img src="images/efficient_frontier.png" width="800" title="stock_flex">
 
 
-### Hierarchical Clustering
+### Hierarchical Clustering Results
 TODO: Description
 
 
