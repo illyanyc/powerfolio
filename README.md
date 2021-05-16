@@ -1,22 +1,3 @@
-<script type="text/x-mathjax-config">
-  MathJax.Hub.Config({
-    tex2jax: {
-      inlineMath: [ ['$$','$$'], ["\\(","\\)"] ],
-      displayMath: [ ['$$','$$'], ["\\(","\\)"] ],
-    },
-    TeX: {
-      Macros: {
-        bra: ["\\langle{#1}|", 1],
-        ket: ["|{#1}\\rangle", 1],
-        braket: ["\\langle{#1}\\rangle", 1],
-        bk: ["\\langle{#1}|{#2}|{#3}\\rangle", 3]
-     }
-   }
-  });
-</script>
-
-<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML' async></script>
-
 # Powerfolio!
 Bringing power to your portfolio building needs
 
@@ -71,7 +52,7 @@ Powerfolio! implements fundamental analysis, technical analysis and traditional 
 ### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-<img src="https://render.githubusercontent.com/render/math?math=\frac{P}{E}=\frac{Share\:Price}{Earnings\:Per\:Share}" alt="PE Ratio" style="background-color:white">
+$$\frac{P}{E}=\frac{Share\:Price}{Earnings\:Per\:Share}$$
 
 
 
