@@ -211,6 +211,16 @@ python -m pip install --user scipy ipython sympy nose
 
 <br>
 
+### matplotlib
+Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. [[matplotlib Overview](https://matplotlib.org/)]
+
+#### Installation
+```python
+conda install matplotlib
+```
+
+<br>
+
 ### Panel
 A high-level app and dashboarding solution for Python [[Holoviz Panel Overview](https://panel.holoviz.org/)]
 
