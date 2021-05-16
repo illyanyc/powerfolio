@@ -52,17 +52,14 @@ Powerfolio! implements fundamental analysis, technical analysis and traditional 
 ### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-*Formula was obtained from [Investopedia](https://www.investopedia.com/terms/p/price-earningsratio.asp)*
+\begin{equation}\frac{P}{E} =  \frac{Share\:Price}{Earnings\:Per \:Share}\end{equation}
 
-<img src="images/pe_ratio.png" width="260" title="pe_ratio">
 <br>
 
 ### EPS - Earnings per Share
 [Earnings per share (EPS)](https://www.investopedia.com/terms/e/eps.asp) is generally calculated by dividing company's profit by the outstanding shares of its common stock. EPS is a general way for a company to report it's profitability adjusted to it's marker capitalization. It is one of the general ways to evaluate corporate earnings.
 
-*Formula was obtained from [Investopedia](https://www.investopedia.com/terms/e/eps.asp)*
-
-<img src="images/eps.png" width="240" title="eps">
+\begin{equation}EPS =  \frac{Net\:Income − Preferred\:Dividends}{Common\:Shares\:Outstanding}\end{equation}
 <br>
 
 ### Dividend
@@ -76,11 +73,10 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 ### RSI - Relative Strength Index
 [Relative Strength Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI is a technical indicator used to determine is a particular security is overbought or oversold. It measures the magnitude of price change of the asset; and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
 
-*Formulas were obtained from [Investopedia](https://www.investopedia.com/terms/r/rsi.asp)*
+\begin{equation}RSI_{step\:one} = \left(\frac{100}{1+\frac{Average\: gain}{Average\:loss}}\right)\end{equation}
 
-<img src="images/rsi_1.png" width="320" title="rsi_step_1">
 
-<img src="images/rsi_2.png" width="500" title="rsi_step_2">
+\begin{equation}RSI_{step\:two} = \left(\frac{100}{1+\frac{(Previous\:average\:gain\:\times\:13)\:+\:Current\:gain}{-((Previous\:average\:loss\:\times\:13)\:+\:Current\:loss)}}\right)\end{equation}
 
 <br>
 
@@ -96,17 +92,20 @@ RSI indicator, indicates that a stock is overbought then the indicator crosses a
 ### MACD
 [Moving average convergence divergence (MACD)](https://www.investopedia.com/terms/m/macd.asp) is a trend-following momentum indicator that shows the relationship between two moving averages of a security’s price. The MACD is calculated by subtracting the 26-period exponential moving average (EMA) from the 12-period EMA.
 
-
-<img src="images/macd.png" width="400" title="stock_flex">
+\begin{equation} MACD = 12\:Period\:EMA\:-\:26\:Period\:EMA  \end{equation}
+<br>
 
 [Exponential moving average](https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
 In statistics, a moving average (MA), also known as simple moving average (SMA) in finance, is a calculation used to analyze data points by creating a series of averages of different subsets of the full data set. 
+
+\begin{equation}EMA_{today} = \left( Value_{today} * (\frac{Smoothing}{1\:+\:Days}) \right)\:+\:EMA_{yesterday}\:*\:\left(1\:-\:\frac{Smoothing}{1\:+\:Days}\right)\end{equation}
+
 
 MACD is used by traders to indicate bullish and bearish reversals when the EMA trendlines cross.
 
 <br>
 
-<img src="images/macd_plot_example.png" width="1500" title="rsi_plot_example">
+<img src="images/macd_plot_example.png" width="1500" title="macd_example">
 
 <br>
 
@@ -119,7 +118,7 @@ MACD is used by traders to indicate bullish and bearish reversals when the EMA t
 
 <br>
 
-<img src="images/sharpe_ratio.png" width="300" title="rsi_plot_example">
+\begin{equation} Sharpe\:Ratio=\frac{R_p\:-\:R_f}{\sigma_p}\end{equation}
 
 where:
 
@@ -138,7 +137,7 @@ The [Efficient Frontier](https://www.investopedia.com/terms/e/efficientfrontier.
 
 *The plot was taken from [TheWealthyFinn.com](https://www.thewealthyfinn.com/2019/07/risk-return-modern-portfolio-theory.html):*
 
-<img src="images/efficient_frontier_example.png" width="550" title="rsi_plot_example">
+<img src="images/efficient_frontier_example.png" width="550" title="efficient_frontier" style="background-color:white;">
 
 <br>
 
@@ -152,7 +151,7 @@ Hierarchial Rist Clustering utilizes [hierarchial risk parity](https://quantpedi
 
 *The plot was taken from [QuantPedia.com](https://quantpedia.com/hierarchical-risk-parity/):*
 
-<img src="images/hierarchial_risk_parity.jpg" width="550" title="rsi_plot_example">
+<img src="images/hierarchial_risk_parity.jpg" width="550" title="hierarchial_risk_parity">
 
 
 <br>
@@ -346,7 +345,7 @@ Data connections in the Powerfolio! Dashboard are provided by [Alpaca](https://a
 Securities tickers are stored locally and can be replaced on demand.
 The column with tickers within the .csv file must be named <code>"Symbol"</code>
 
-<img src="images/tickers_connector_path.png" width="600" title="stock_flex">
+<img src="images/tickers_connector_path.png" width="600" title="tickers_connector_path">
 
 The data from the default <code>.csv</code> contains S&P 500 tickers in the following format:
 
@@ -364,9 +363,9 @@ The data from the default <code>.csv</code> contains S&P 500 tickers in the foll
 #### API keys
     
 The user needs to store the API keys locally and reference them in the <code>dashboard.ipynb</code> before running the application. 
-In order to reference the API keys enter the filepath of your <code>.env</code> file in cell 1 of the notebook:
+In order to reference the API keys enter the filepath of your <code>.env</code> file in code cell 3 of the notebook:
 
-<img src="images/data_connector_path.png" width="600" title="stock_flex">
+<img src="images/data_connector_path.png" width="600" title="data_connector_path">
     
     
 In order to properly load API keys using <code>dotenv</code> library the key names in the file must be:
@@ -384,7 +383,13 @@ In order to properly load API keys using <code>dotenv</code> library the key nam
 ### FinnHub Data Refresh
 FinnHub data is stored locally in a <code>.csv</code> and can be refreshed on the Welcome page of the Dashboard:
 
-<img src="images/data_refresh.png" width="400" title="stock_flex">
+<img src="images/data_refresh.png" width="400" title="data_refresh">
+
+<br>
+
+FinnHub generated fundamental data is stored in a <code>fundamental_data.csv</code> file, the path of which can be changed on-demand:
+
+<img src="images/finnhub_data_path.png" width="400" title="finnhub_data_path">
 
 <br>
 
@@ -420,14 +425,14 @@ Pressing <code>Refresh</code> button clears the **Filtered Stocks** Dataframe.
 *Fundamental Portfolio Screener/Builder GUI*:
 
 
-<img src="images/fund_builder_1.png" width="800" title="stock_flex">
+<img src="images/fund_builder_1.png" width="800" title="fund_builder_1">
 
 <br>
 
 The model fundamental portfolio is displayed on the right side of the Dashboard.
 *Fundamental Portfolio Screener/Builder result*:
 
-<img src="images/fund_builder_2.png" width="500" title="stock_flex">
+<img src="images/fund_builder_2.png" width="500" title="fund_builder_2">
 
 <br>
 
@@ -451,7 +456,7 @@ The selection criteria for the model portfolio are:
 
 *RSI Builder GUI*:
 
-<img src="images/rsi_trader_1.png" width="600" title="stock_flex">
+<img src="images/rsi_gui_1.png" width="600" title="rsi_trader_1">
 
 <br>
 
@@ -460,7 +465,7 @@ The resulting plot shows the RSI Trader simulated portfolio in addition to model
 
 *RSI Builder result*:
 
-<img src="images/rsi_trader_2.png" width="500" title="stock_flex">
+<img src="images/rsi_trader_2.png" width="500" title="rsi_trader_2">
 
 <br>
 
@@ -477,11 +482,11 @@ It provides the user with:
 
 > MACD
 
-The user can select the tickers for the securities within their portfolio in the drop-down menu on the top left side of the screen and pressing the <code>View Technical Indicators</code> button.
+The user can select the tickers for the securities within their portfolio in the drop-down menu on the top left side of the screen and pressing the <code>View Technical Indicators</code> button. 
 
 *Technical Analysis GUI and result:*
 
-<img src="images/technical_chart.png" width="800" title="stock_flex">
+<img src="images/technical_chart.png" width="800" title="technical_chart">
 
 <br>
 
@@ -492,7 +497,7 @@ Efficient Frontier tab allows user to model an efficient portfolio and compare i
 
 *Efficient Frontier GUI and results*:
 
-<img src="images/efficient_front.png" width="800" title="stock_flex">
+<img src="images/efficient_front.png" width="800" title="efficient_front">
 
 
 ### Hierarchical Clustering Results
@@ -501,7 +506,7 @@ Efficient Frontier tab allows user to model an efficient portfolio and compare i
 
 *Hierarchical Clustering result*:
 
-<img src="images/hierarchical_portfolio_allocation.png" width="800" title="stock_flex">
+<img src="images/hierarchical_portfolio_allocation.png" width="800" title="hierarchical_portfolio_allocation">
 
 
 
