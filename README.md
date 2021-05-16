@@ -52,7 +52,7 @@ Powerfolio! implements fundamental analysis, technical analysis and traditional 
 ### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-\begin{equation}\frac{P}{E} =  \frac{Share\:Price}{Earnings\:Per \:Share}\end{equation}
+<img src="https://latex.codecogs.com/gif.latex?\frac{P}{E} =  \frac{Share\:Price}{Earnings\:Per \:Share}\end{equation}"/>
 
 <br>
 
@@ -345,7 +345,7 @@ Data connections in the Powerfolio! Dashboard are provided by [Alpaca](https://a
 Securities tickers are stored locally and can be replaced on demand.
 The column with tickers within the .csv file must be named <code>"Symbol"</code>
 
-<img src="images/tickers_connector_path.png" width="600" title="tickers_connector_path">
+<img src="images/tickers_connetor_path.png" width="600" title="tickers_connector_path">
 
 The data from the default <code>.csv</code> contains S&P 500 tickers in the following format:
 
@@ -389,7 +389,7 @@ FinnHub data is stored locally in a <code>.csv</code> and can be refreshed on th
 
 FinnHub generated fundamental data is stored in a <code>fundamental_data.csv</code> file, the path of which can be changed on-demand:
 
-<img src="images/finnhub_data_path.png" width="400" title="finnhub_data_path">
+<img src="images/finnhub_data_path.png" width="600" title="finnhub_data_path">
 
 <br>
 
