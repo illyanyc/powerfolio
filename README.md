@@ -98,7 +98,7 @@ RSI indicator, indicates that a stock is overbought then the indicator crosses a
 [Exponential moving average](https://www.investopedia.com/terms/e/ema.asp) is a [moving average](https://www.investopedia.com/terms/m/movingaverage.asp) that places a greater weight to most recent data points and less to the older data points. In finance, EMA reacts more significantly to recent price changes than a [simple moving average (SMA)](, which applies an equal weight to all observations in the period.
 In statistics, a moving average (MA), also known as simple moving average (SMA) in finance, is a calculation used to analyze data points by creating a series of averages of different subsets of the full data set. 
 
-\begin{equation}EMA_{today} = \left( Value_{today} * (\frac{Smoothing}{1\:+\:Days}) \right)\:+\:EMA_{yesterday}\:*\:\left(1\:-\:\frac{Smoothing}{1\:+\:Days}\right)\end{equation}
+\begin{equation}EMA_{today} = \left( Value_{today} * \left(\frac{Smoothing}{1\:+\:Days}\right) \right)\:+\:EMA_{yesterday}\:*\:\left(1\:-\:\frac{Smoothing}{1\:+\:Days}\right)\end{equation}
 
 
 MACD is used by traders to indicate bullish and bearish reversals when the EMA trendlines cross.
