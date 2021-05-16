@@ -250,7 +250,7 @@ jupyter labextension install @jupyter-widgets/jupyterlab-manager plotlywidget@4.
 <br>
 
 ### hvPlot
-A high-level plotting API for the PyData ecosystem built on HoloViews. [[hvPLot Overview]](https://hvplot.holoviz.org/)
+A high-level plotting API for the PyData ecosystem built on HoloViews. [[hvPLot Overview](https://hvplot.holoviz.org/)]
 
 <img src="images/hvplot_1.png" width="500" title="stock_flex">
 
