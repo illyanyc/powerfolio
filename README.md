@@ -52,9 +52,7 @@ Powerfolio! implements fundamental analysis, technical analysis and traditional 
 ### P/E - Price to Earnings Ratio
 The [price-to-earnings ratio (P/E ratio)](https://www.investopedia.com/terms/p/price-earningsratio.asp) is a method used to value a company by comparing the share price to the Earnings per Share (EPS). The price-to-earnings ratio is used a multiplier for company earnings. High P/E ratio means that the stock value is high compared to corporate earnings, and that the company may be overvalues, and vis-versa. 
 
-katex.render("frac{P}{E}=\frac{Share\:Price}{Earnings\:Per\:Share}, element, {
-    throwOnError: false
-});
+https://render.githubusercontent.com/render/math?math=frac{P}{E}=\frac{Share\:Price}{Earnings\:Per\:Share}
 
 <br>
 
