@@ -1,3 +1,22 @@
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({
+    tex2jax: {
+      inlineMath: [ ['$$','$$'], ["\\(","\\)"] ],
+      displayMath: [ ['$$','$$'], ["\\(","\\)"] ],
+    },
+    TeX: {
+      Macros: {
+        bra: ["\\langle{#1}|", 1],
+        ket: ["|{#1}\\rangle", 1],
+        braket: ["\\langle{#1}\\rangle", 1],
+        bk: ["\\langle{#1}|{#2}|{#3}\\rangle", 3]
+     }
+   }
+  });
+</script>
+
+<script src='https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-MML-AM_CHTML' async></script>
+
 # Powerfolio!
 Bringing power to your portfolio building needs
 
@@ -75,7 +94,7 @@ A [dividend](https://www.investopedia.com/terms/d/dividend.asp) is the distribut
 ### RSI - Relative Strength Index
 [Relative Strength Index](https://www.investopedia.com/terms/r/rsi.asp), better known as RSI is a technical indicator used to determine is a particular security is overbought or oversold. It measures the magnitude of price change of the asset; and is an oscillator that moves between 0 and 100. RSI was developed by J. Welles Wilder Jr. in 1978.
 
-\\begin{equation}RSI_{step\:one} = \left(\frac{100}{1+\frac{Average\: gain}{Average\:loss}}\right)\\end{equation}
+\begin{equation}RSI_{step\:one} = \left(\frac{100}{1+\frac{Average\: gain}{Average\:loss}}\right)\end{equation}
 
 
 \begin{equation}RSI_{step\:two} = \left(\frac{100}{1+\frac{(Previous\:average\:gain\:\times\:13)\:+\:Current\:gain}{-((Previous\:average\:loss\:\times\:13)\:+\:Current\:loss)}}\right)\end{equation}
