@@ -277,8 +277,6 @@ conda install seaborn
 
 <br>
 
-## APIs
-
 ### Matplotlib
 Matplotlib is a comprehensive library for creating static, animated, and interactive visualizations in Python. [[Matplotlib Overview](https://matplotlib.org/)]
 
@@ -288,6 +286,8 @@ conda install matplotlib
 ```
 
 <br>
+
+## APIs
 
 ### Alpaca Trade API
 Alpaca is a technology company headquartered in Silicon Valley that builds commission-free stock trading API (Brokerage services are provided by Alpaca Securities LLC, member FINRA/SIPC) [[Alpaca Trade API Overview](https://alpaca.markets/docs/)]. 
