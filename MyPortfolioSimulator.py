@@ -3,7 +3,7 @@ TODO: Documentation.
 """
 import numpy as np
 import enum
-from pandas import read_csv, Series, DataFrame, MultiIndex
+from pandas import read_csv, Series, DataFrame, MultiIndex, concat
 from typing import List, NewType, Tuple, Union
 from dataclasses import dataclass
 from pathlib import Path
@@ -13,6 +13,7 @@ from scipy.optimize import minimize
 # Helpful user-defined type for portfolio-optimization simulations
 Tickers = NewType('Tickers', List[str])
 Weights = NewType('Weights', np.array)
+
 
 @dataclass
 class PortfolioOptimizationResult:
@@ -151,12 +152,35 @@ def get_portfolio_return_variance_sharpe(
 ) -> Tuple[float, float, float]:
     """ Wrapper method to calculate a portfolio's expected {return, variance,
     Sharpe Ratio} with one function call. """
-    portfolio_return = get_portfolio_return(weights=weights, expected_returns=expected_returns, periods_per_annum=periods_per_annum)
-    portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=periods_per_annum)
-    portfolio_sharpe_numer = (portfolio_return - risk_free_rate) * periods_per_annum
+    portfolio_return = get_portfolio_return(
+        weights=weights, expected_returns=expected_returns, periods_per_annum=periods_per_annum)
+    portfolio_variance = get_portfolio_variance(
+        weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=periods_per_annum)
+    portfolio_sharpe_numer = (
+        portfolio_return - risk_free_rate) * periods_per_annum
     portfolio_sharpe_denom = np.sqrt(portfolio_variance * periods_per_annum)
     portfolio_sharpe_ratio = portfolio_sharpe_numer / portfolio_sharpe_denom
     return (portfolio_return, portfolio_variance, portfolio_sharpe_ratio)
+
+
+def get_neg_portfolio_sharpe_ratio_for_scipy(
+    weights: np.array = None,
+    expected_returns: np.array = None,
+    covariance_matrix: np.array = None,
+    risk_free_rate: float = 0.0,
+    periods_per_annum: int = 252,
+) -> float:
+    """
+    In order to maximize the Sharpe Ratio using `scipy.optimize.minimize`,
+    we will *minimize the negative Sharpe Ratio*.
+    """
+    return -get_portfolio_sharpe_ratio(
+        weights = weights,
+        expected_returns = expected_returns,
+        covariance_matrix = covariance_matrix,
+        risk_free_rate = risk_free_rate,
+        periods_per_annum = periods_per_annum,
+    )
 
 
 class TraditionalPortfolioAnalyzer:
@@ -182,79 +206,204 @@ class TraditionalPortfolioAnalyzer:
         self.df_returns = df_returns.copy()
         self.df_returns_mean = self.df_returns.mean(axis=0)
         self.df_returns_cov = self.df_returns.cov()
-        self.sharpe_ratios = get_sharpe_ratios(self.df_returns, risk_free_rate=self.risk_free_rate, periods_per_annum=self.periods_per_annum)
+        self.sharpe_ratios = get_sharpe_ratios(
+            self.df_returns, risk_free_rate=self.risk_free_rate, periods_per_annum=self.periods_per_annum)
         return None
-    
+
     def get_individual_stock_portfolios(self) -> DataFrame:
         ntickers = len(self.tickers)
+        weights = np.ones(ntickers)
         expected_returns = np.full(ntickers, np.nan)
         expected_variances = np.full(ntickers, np.nan)
         expected_sharpe_ratios = np.full(ntickers, np.nan)
         for n in range(ntickers):
-            pr, pv, ps = get_portfolio_return_variance_sharpe(
-                weights = np.array([1.0]),
-                expected_returns = np.array([self.df_returns_mean.iloc[n]]),
-                covariance_matrix = np.array([[self.df_returns_cov.iloc[n, n]]]),
-                risk_free_rate = self.risk_free_rate,
-                periods_per_annum = self.periods_per_annum
+            pret, pvar, psharpe = get_portfolio_return_variance_sharpe(
+                weights=np.array([1.0]),
+                expected_returns=np.array([self.df_returns_mean.iloc[n]]),
+                covariance_matrix=np.array([[self.df_returns_cov.iloc[n, n]]]),
+                risk_free_rate=self.risk_free_rate,
+                periods_per_annum=self.periods_per_annum
             )
-            expected_returns[n] = pr
-            expected_variances[n] = pv
-            expected_sharpe_ratios[n] = ps
-        return DataFrame(
-            data = {
-                'descrip': self.tickers,
-                'portfolio_return': expected_returns,
-                'portfolio_variance': expected_variances,
-                'portfolio_sharpe_ratio': expected_sharpe_ratios
-            },
-            index = self.tickers
+            expected_returns[n] = pret
+            expected_variances[n] = pvar
+            expected_sharpe_ratios[n] = psharpe
+        return self._build_dataframe_for_hvplot(
+            portfolio_type='one_stock',
+            portfolio_return=expected_returns,
+            portfolio_variance=expected_variances,
+            portfolio_sharpe=expected_sharpe_ratios,
+            tickers=self.tickers,
+            weights=([str(1.0)] * ntickers),
         )
-    
+
     def get_equal_weight_portfolio(self):
         ntickers = len(self.tickers)
         weights = np.full(ntickers, (1.0 / ntickers))
-        pr, pv, ps = get_portfolio_return_variance_sharpe(
-            weights = weights,
+        pret, pvar, psharpe = get_portfolio_return_variance_sharpe(
+            weights=weights,
             expected_returns=self.df_returns_mean,
             covariance_matrix=self.df_returns_cov,
             risk_free_rate=self.risk_free_rate,
             periods_per_annum=self.periods_per_annum,
         )
-        return DataFrame(
-            data = {
-                'descrip': 'Equal-Weight Portfolio',
-                'portfolio_return': pr,
-                'portfolio_variance': pv,
-                'portfolio_sharpe_ratio':ps 
-            },
-            index = ['Equal-Weight Portfolio']
+        return self._build_dataframe_for_hvplot(
+            portfolio_type='equal_weight',
+            portfolio_return=[pret],
+            portfolio_variance=[pvar],
+            portfolio_sharpe=[psharpe],
+            tickers=','.join(self.tickers),
+            weights=','.join([str(round(wt, 5)) for wt in weights]),
         )
-    
+
+    def get_random_portfolio(self) -> DataFrame:
+        weights = self.get_random_initial_weights()
+        pret, pvar, psharpe = get_portfolio_return_variance_sharpe(
+            weights=weights,
+            expected_returns=self.df_returns_mean,
+            covariance_matrix=self.df_returns_cov,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+        return self._build_dataframe_for_hvplot(
+            portfolio_type='random',
+            portfolio_return=[pret],
+            portfolio_variance=[pvar],
+            portfolio_sharpe=[psharpe],
+            tickers=','.join(self.tickers),
+            weights=','.join([str(round(wt, 5)) for wt in weights]),
+        )
+
     def get_random_portfolios(self, nrandom: int = 1000) -> DataFrame:
-        portfolio_returns = np.full(nrandom, np.nan)
-        portfolio_variances = np.full(nrandom, np.nan)
-        portfolio_sharpe_ratios = np.full(nrandom, np.nan)
-        for nsim in range(nrandom):
-            weights = self.get_random_initial_weights()
-            pr, pv, ps = get_portfolio_return_variance_sharpe(
-                weights = weights,
-                expected_returns=self.df_returns_mean,
-                covariance_matrix=self.df_returns_cov,
-                risk_free_rate=self.risk_free_rate,
-                periods_per_annum=self.periods_per_annum,
+        dfs = []
+        for _ in range(nrandom):
+            dfs.append(self.get_random_portfolio())
+        return concat(dfs)
+
+    def do_portfolio_constrained_optimization(
+        self,
+        portfolio_type: str = 'minimum_variance',
+        target_return: float = None,
+    ):
+        allowed_portfolio_types = {
+            'minimum_variance',
+            'maximum_sharpe',
+            'mean_return_constraint'
+        }
+        if portfolio_type not in allowed_portfolio_types:
+            raise ValueError(
+                f"do_portfolio_constrained_optimization: `portfolio_type "
+                f"= {portfolio_type}` not understood!  Allowed options: "
+                f"= {allowed_portfolio_types}`"
             )
-            portfolio_returns[nsim] = pr
-            portfolio_variances[nsim] = pv
-            portfolio_sharpe_ratios[nsim] = ps
-        return DataFrame(
-            data = {
-                'descrip': 'Random Portfolio',
-                'portfolio_return': portfolio_returns,
-                'portfolio_variance': portfolio_variances,
-                'portfolio_sharpe_ratio': portfolio_sharpe_ratios
+
+        if (portfolio_type == 'mean_return_constraint') and (target_return is None):
+            raise ValueError(
+                f"do_portfolio_constrained_optimization: `portfolio_type "
+                f"= {portfolio_type}` must have !"
+            )
+
+        covmat = self.df_returns_cov.to_numpy()
+        catol = 1.0e-5
+        ftol = np.mean(covmat) * catol  # precision of optimization
+        eps = ftol
+
+        weights = self.get_random_initial_weights()
+        weight_bounds = ((-1, 1) if self.allow_shorts else (0, 1), ) * len(self.tickers)
+
+        if portfolio_type == 'minimum_variance':
+            opt_fcn = get_portfolio_variance
+            args = (covmat, self.periods_per_annum)
+            constraints = self._get_weight_constraint_for_scipy()
+        elif portfolio_type == 'maximum_sharpe':
+            opt_fcn = get_neg_portfolio_sharpe_ratio_for_scipy
+            args = (self.df_returns_mean.to_numpy(), covmat, self.risk_free_rate, self.periods_per_annum)
+            constraints = self._get_weight_constraint_for_scipy()
+        elif portfolio_type == 'mean_return_constraint':
+            def _return_constraint_fcn(weights):  #, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum):
+                return get_portfolio_return(
+                    weights=weights,
+                    expected_returns=self.df_returns_mean,
+                    periods_per_annum=self.periods_per_annum
+                )
+            opt_fcn = get_portfolio_variance
+            args = (covmat, self.periods_per_annum)
+            constraints = [
+                self._get_weight_constraint_for_scipy(),
+                {'type': 'eq', 'fun': lambda wt: _return_constraint_fcn(wt) - target_return}
+            ]
+        else:
+            print(f"")
+
+        # Perform the optimization
+        opt_res = minimize(
+            opt_fcn,
+            x0=weights,
+            bounds=weight_bounds,
+            constraints=constraints,
+            args=args,
+            method='SLSQP',
+            options={
+                'catol': catol,
+                'ftol': ftol,
+                'eps': eps,
+                'maxiter': 1e4,
             }
         )
+
+        # Check that the optimization terminated successfully
+        if not opt_res.success:
+            raise RuntimeError(
+                f"get_minimum_variance_portfolio: "
+                f"Optimization did not terminate successfully!"
+            )
+
+        # Get optimal weights
+        weights = opt_res.x
+        if not np.isclose(np.sum(np.abs(weights)), 1.0):
+            raise RuntimeError(
+                f"get_minimum_variance_portfolio: "
+                f"sum(|weights|) do not total unity!"
+            )
+
+        pret, pvar, psharpe = get_portfolio_return_variance_sharpe(
+            weights=weights,
+            expected_returns=self.df_returns_mean,
+            covariance_matrix=self.df_returns_cov,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+
+        return self._build_dataframe_for_hvplot(
+            portfolio_type=portfolio_type,
+            portfolio_return=[pret],
+            portfolio_variance=[pvar],
+            portfolio_sharpe=[psharpe],
+            tickers=','.join(self.tickers),
+            weights=','.join([str(round(wt, 5)) for wt in weights]),
+        )
+
+        return opt_res
+
+    def get_minimum_variance_portfolio(self):
+        return self.do_portfolio_constrained_optimization(portfolio_type='minimum_variance')
+
+    def get_maximum_sharpe_portfolio(self):
+        return self.do_portfolio_constrained_optimization(portfolio_type='maximum_sharpe')
+
+    def get_efficient_frontier_portfolios(self, num_portfolios: int = 11):
+        min_return = self.df_returns_mean.min()
+        max_return = self.df_returns_mean.max()
+
+        target_returns = np.linspace(min_return, max_return, num=(num_portfolios + 2))[1:-1] * self.periods_per_annum
+        dfs = []
+        for target_return in target_returns:
+            dfs.append(self.do_portfolio_constrained_optimization(
+                portfolio_type = 'mean_return_constraint',
+                target_return=target_return
+            ))
+        df = concat(dfs, axis=0, join='outer')
+        df['portfolio_type'] = 'efficient_frontier'
+        return df
 
     def get_random_initial_weights(self) -> np.array:
         ntickers = len(self.tickers)
@@ -264,54 +413,42 @@ class TraditionalPortfolioAnalyzer:
         weights /= np.sum(np.abs(weights))
         return weights
 
-    
     def _build_dataframe_for_hvplot(
         self,
-        tickers_or_descrip: Union[str, Tickers] = None,
-        portfolio_return: float = np.nan,
-        portfolio_variance: float = np.nan,
-        portfolio_sharpe_ratio: float = np.nan,
+        portfolio_type: List[str] = None,
+        portfolio_return: np.array = None,
+        portfolio_variance: np.array = None,
+        portfolio_sharpe: np.array = None,
+        tickers: Tickers = None,
+        weights: Weights = None,
     ):
         return DataFrame(
-            data = {
-                'descrip': tickers_or_descrip,
+            data={
+                'portfolio_type': portfolio_type,
                 'portfolio_return': portfolio_return,
                 'portfolio_variance': portfolio_variance,
-                'portfolio_sharpe_ratio': portfolio_sharpe_ratio,
-            }
+                'portfolio_sharpe': portfolio_sharpe,
+                'tickers': tickers,
+                'weights': weights,
+            },
         )
-    
+
+    def _get_weight_constraint_for_scipy(self):
+        return {
+            'type': 'eq',
+            'fun': lambda weights: np.sum(np.abs(weights)) - 1
+        }
 
 
-
-#===============================================================================
+# ===============================================================================
 # HERE I AM!!! -----------------------------------------------------------------
-#===============================================================================
+# ===============================================================================
 '''
-def get_neg_portfolio_sharpe_ratio_for_scipy(
-    weights: np.array = None,
-    expected_returns: np.array = None,
-    covariance_matrix: np.array = None,
-    risk_free_rate: float = 0.0,
-    periods_per_annum: int = 252,
-) -> float:
-    """
-    In order to maximize the Sharpe Ratio using `scipy.optimize.minimize`,
-    we will *minimize the negative Sharpe Ratio*.
-    """
-    return -get_portfolio_sharpe_ratio(
-        weights = weights,
-        expected_returns = expected_returns,
-        covariance_matrix = covariance_matrix,
-        risk_free_rate = risk_free_rate,
-        periods_per_annum = periods_per_annum,
-    )
+
 
 class RememberToSleepDumbass:
     """
     """
-
-
 
         # Pick a few tickers if None is provided
         if tickers_of_interest is None:
@@ -502,11 +639,7 @@ class RememberToSleepDumbass:
         ntickers = len(self.tickers_of_interest)
         return ((-1, 1) if self.allow_shorts else (0, 1), ) * ntickers
 
-    def _get_weight_constraint_for_scipy(self):
-        return {
-            'type': 'eq',
-            'fun': lambda weights: np.sum(np.abs(weights)) - 1
-        }
+
 
 
 class MyPortfolioSimulator:
@@ -615,9 +748,8 @@ class MyPortfolioSimulator:
 
     def get_minimum_variance_portfolio(self) -> PortfolioOptimizationResult:
         # Define arguments for `scipy.optimize.minimize`
-        covmat = self.df_returns_cov.to_numpy()
-        ftol = np.mean(covmat) / 1e5
-        args = (covmat, self.periods_per_annum)
+        
+        
 
         # Perform the optimization
         opt_res = minimize(
@@ -627,20 +759,8 @@ class MyPortfolioSimulator:
             constraints = self._get_weight_constraint_for_scipy(),
             args = args,
             method = 'SLSQP',
-            options = {
-                'ftol': ftol,
-                'maxiter': 1e4,
-            }
+
         )
-
-        # Check that the optimization terminated successfully
-        if not opt_res.success:
-            raise RuntimeError(f"Optimization did not terminate successfully!")
-
-        # Get optimal weights
-        weights = opt_res.x
-        if not np.isclose(np.sum(np.abs(weights)), 1.0):
-            raise RuntimeError(f"sum(|weights|) do not total unity!")
 
         # Return the minimum-variance portfolio
         return PortfolioOptimizationResult(
@@ -744,8 +864,7 @@ class MyPortfolioSimulator:
 
     def get_efficient_frontier(self, num_simulations: int = 51) -> List[PortfolioOptimizationResult]:
 
-        def _return_constraint_fcn(weights):
-            return get_portfolio_return(weights=weights, expected_returns=self.df_returns_mean, periods_per_annum=self.periods_per_annum)
+
 
         # Determine constraints
         if self.allow_shorts:
@@ -776,7 +895,7 @@ class MyPortfolioSimulator:
                 bounds = self._get_weight_bounds_for_scipy(),
                 constraints = [
                     self._get_weight_constraint_for_scipy(),
-                    {'type': 'eq', 'fun': lambda w: _return_constraint_fcn(w) - target_return}
+                    
                 ],
                 args = args,
                 method = 'SLSQP',
