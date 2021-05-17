@@ -3,8 +3,8 @@ TODO: Documentation.
 """
 import numpy as np
 import enum
-from pandas import read_csv, DataFrame, MultiIndex
-from typing import List, NewType
+from pandas import read_csv, Series, DataFrame, MultiIndex
+from typing import List, NewType, Tuple, Union
 from dataclasses import dataclass
 from pathlib import Path
 from scipy.optimize import minimize
@@ -94,40 +94,17 @@ def get_log_returns(
 
 
 def get_sharpe_ratios(
-    df_alpaca: DataFrame,
-    input_label: str = 'close',
-    output_label: str = 'sharpe_ratio',
+    df_returns: DataFrame,
     risk_free_rate: float = 0.0,
-    periods_per_annum: int = 252,
-) -> DataFrame:
+    periods_per_annum: int = 252
+) -> Series:
     """
-    Helper function to calculate the annualized Sharpe Ratios of the financial
+    Helper function to calculate the (annualized) Sharpe Ratios of the financial
     instruments contained in the input dataframe.
     """
-    # Here's what we're calculating
-    df_sharpe_ratios = None
-
-    # Calculate logarithmic returns
-    df_returns = get_log_returns(df_alpaca, input_label=input_label)
-
-    # Calculate annualized expected return over the risk-free rate
-    df_sharpe_numer = (df_returns.mean(axis=0) - risk_free_rate) * periods_per_annum
-
-    # Calculate annualized expected standard deviation
-    df_sharpe_denom = df_returns.std(axis=0) * np.sqrt(periods_per_annum)
-
-    # Calculate annualized Sharpe Ratio
-    df_sharpe_ratios = df_sharpe_numer / df_sharpe_denom
-
-    # Convert `Series` to `DataFrame`, with appropriate format for this project
-    df_sharpe_ratios = df_sharpe_ratios.to_frame().T
-
-    # Construct `MultiIndex` with appropriate format for this project
-    tickers = get_tickers(df_sharpe_ratios)
-    df_sharpe_ratios.columns = MultiIndex.from_product([tickers, [output_label]])
-
-    # Return the results
-    return df_sharpe_ratios
+    numer = (df_returns.mean(axis=0) - risk_free_rate) * periods_per_annum
+    denom = np.sqrt(df_returns.var(axis=0) * periods_per_annum)
+    return numer / denom
 
 
 def get_portfolio_return(
@@ -135,8 +112,7 @@ def get_portfolio_return(
     expected_returns: np.array = None,
     periods_per_annum: int = 252,
 ) -> float:
-    """ Helper function to calculate the annualized portfolio return. """
-    #return ((1 + (weights @ expected_returns)) ** periods_per_annum) - 1
+    """ Helper function to calculate the (annualized) portfolio return. """
     return (weights @ expected_returns) * periods_per_annum
 
 
@@ -145,7 +121,7 @@ def get_portfolio_variance(
     covariance_matrix: np.array = None,
     periods_per_annum: int = 252,
 ) -> float:
-    """ Helper function to calculate the annualized portfolio variance. """
+    """ Helper function to calculate the (annualized) portfolio variance. """
     return (weights @ covariance_matrix @ weights) * periods_per_annum
 
 
@@ -156,14 +132,162 @@ def get_portfolio_sharpe_ratio(
     risk_free_rate: float = 0.0,
     periods_per_annum: int = 252,
 ) -> float:
+    idx_sharpe_ratio = -1
+    return get_portfolio_return_variance_sharpe(
+        weights=weights,
+        expected_returns=expected_returns,
+        covariance_matrix=covariance_matrix,
+        risk_free_rate=risk_free_rate,
+        periods_per_annum=periods_per_annum,
+    )[idx_sharpe_ratio]
+
+
+def get_portfolio_return_variance_sharpe(
+    weights: np.array = None,
+    expected_returns: np.array = None,
+    covariance_matrix: np.array = None,
+    risk_free_rate: float = 0.0,
+    periods_per_annum: int = 252,
+) -> Tuple[float, float, float]:
+    """ Wrapper method to calculate a portfolio's expected {return, variance,
+    Sharpe Ratio} with one function call. """
     portfolio_return = get_portfolio_return(weights=weights, expected_returns=expected_returns, periods_per_annum=periods_per_annum)
     portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=periods_per_annum)
-    sharpe_numer = (portfolio_return - risk_free_rate) * periods_per_annum
-    sharpe_denom = np.sqrt(portfolio_variance * periods_per_annum)
-    sharpe_ratio = sharpe_numer / sharpe_denom
-    return sharpe_ratio
+    portfolio_sharpe_numer = (portfolio_return - risk_free_rate) * periods_per_annum
+    portfolio_sharpe_denom = np.sqrt(portfolio_variance * periods_per_annum)
+    portfolio_sharpe_ratio = portfolio_sharpe_numer / portfolio_sharpe_denom
+    return (portfolio_return, portfolio_variance, portfolio_sharpe_ratio)
 
 
+class TraditionalPortfolioAnalyzer:
+    """
+    """
+
+    def __init__(
+        self,
+        df_returns: DataFrame,
+        risk_free_rate: float = 0.0,
+        periods_per_annum: int = 252,
+        allow_shorts: bool = True,
+        debug: bool = True,
+    ):
+        self.risk_free_rate = risk_free_rate
+        self.periods_per_annum = periods_per_annum
+        self.allow_shorts = allow_shorts
+        self.debug = debug
+        self.update_returns(df_returns)
+
+    def update_returns(self, df_returns: DataFrame) -> None:
+        self.tickers = get_tickers(df_returns)
+        self.df_returns = df_returns.copy()
+        self.df_returns_mean = self.df_returns.mean(axis=0)
+        self.df_returns_cov = self.df_returns.cov()
+        self.sharpe_ratios = get_sharpe_ratios(self.df_returns, risk_free_rate=self.risk_free_rate, periods_per_annum=self.periods_per_annum)
+        return None
+    
+    def get_individual_stock_portfolios(self) -> DataFrame:
+        ntickers = len(self.tickers)
+        expected_returns = np.full(ntickers, np.nan)
+        expected_variances = np.full(ntickers, np.nan)
+        expected_sharpe_ratios = np.full(ntickers, np.nan)
+        for n in range(ntickers):
+            pr, pv, ps = get_portfolio_return_variance_sharpe(
+                weights = np.array([1.0]),
+                expected_returns = np.array([self.df_returns_mean.iloc[n]]),
+                covariance_matrix = np.array([[self.df_returns_cov.iloc[n, n]]]),
+                risk_free_rate = self.risk_free_rate,
+                periods_per_annum = self.periods_per_annum
+            )
+            expected_returns[n] = pr
+            expected_variances[n] = pv
+            expected_sharpe_ratios[n] = ps
+        return DataFrame(
+            data = {
+                'descrip': self.tickers,
+                'portfolio_return': expected_returns,
+                'portfolio_variance': expected_variances,
+                'portfolio_sharpe_ratio': expected_sharpe_ratios
+            },
+            index = self.tickers
+        )
+    
+    def get_equal_weight_portfolio(self):
+        ntickers = len(self.tickers)
+        weights = np.full(ntickers, (1.0 / ntickers))
+        pr, pv, ps = get_portfolio_return_variance_sharpe(
+            weights = weights,
+            expected_returns=self.df_returns_mean,
+            covariance_matrix=self.df_returns_cov,
+            risk_free_rate=self.risk_free_rate,
+            periods_per_annum=self.periods_per_annum,
+        )
+        return DataFrame(
+            data = {
+                'descrip': 'Equal-Weight Portfolio',
+                'portfolio_return': pr,
+                'portfolio_variance': pv,
+                'portfolio_sharpe_ratio':ps 
+            },
+            index = ['Equal-Weight Portfolio']
+        )
+    
+    def get_random_portfolios(self, nrandom: int = 1000) -> DataFrame:
+        portfolio_returns = np.full(nrandom, np.nan)
+        portfolio_variances = np.full(nrandom, np.nan)
+        portfolio_sharpe_ratios = np.full(nrandom, np.nan)
+        for nsim in range(nrandom):
+            weights = self.get_random_initial_weights()
+            pr, pv, ps = get_portfolio_return_variance_sharpe(
+                weights = weights,
+                expected_returns=self.df_returns_mean,
+                covariance_matrix=self.df_returns_cov,
+                risk_free_rate=self.risk_free_rate,
+                periods_per_annum=self.periods_per_annum,
+            )
+            portfolio_returns[nsim] = pr
+            portfolio_variances[nsim] = pv
+            portfolio_sharpe_ratios[nsim] = ps
+        return DataFrame(
+            data = {
+                'descrip': 'Random Portfolio',
+                'portfolio_return': portfolio_returns,
+                'portfolio_variance': portfolio_variances,
+                'portfolio_sharpe_ratio': portfolio_sharpe_ratios
+            }
+        )
+
+    def get_random_initial_weights(self) -> np.array:
+        ntickers = len(self.tickers)
+        weights = np.random.random(ntickers)
+        if self.allow_shorts:
+            weights *= np.random.choice((-1, 1), ntickers)
+        weights /= np.sum(np.abs(weights))
+        return weights
+
+    
+    def _build_dataframe_for_hvplot(
+        self,
+        tickers_or_descrip: Union[str, Tickers] = None,
+        portfolio_return: float = np.nan,
+        portfolio_variance: float = np.nan,
+        portfolio_sharpe_ratio: float = np.nan,
+    ):
+        return DataFrame(
+            data = {
+                'descrip': tickers_or_descrip,
+                'portfolio_return': portfolio_return,
+                'portfolio_variance': portfolio_variance,
+                'portfolio_sharpe_ratio': portfolio_sharpe_ratio,
+            }
+        )
+    
+
+
+
+#===============================================================================
+# HERE I AM!!! -----------------------------------------------------------------
+#===============================================================================
+'''
 def get_neg_portfolio_sharpe_ratio_for_scipy(
     weights: np.array = None,
     expected_returns: np.array = None,
@@ -183,28 +307,15 @@ def get_neg_portfolio_sharpe_ratio_for_scipy(
         periods_per_annum = periods_per_annum,
     )
 
-
-class TraditionalPortfolioAnalyzer:
+class RememberToSleepDumbass:
     """
     """
 
-    def __init__(
-        self,
-        ohlcv_data_path=Path('resources/price_data.csv'),
-        tickers_of_interest: List[str] = None,
-        risk_free_rate: float = 0.0,
-        periods_per_annum: int = 252,
-        debug: bool = True,
-    ):
-        self.load_ohlcv_data(ohlcv_data_path)
-        
-        self.risk_free_rate = risk_free_rate
-        self.periods_per_annum = periods_per_annum
-        self.debug = debug
+
 
         # Pick a few tickers if None is provided
         if tickers_of_interest is None:
-            nbest_sharpe = 8
+            nbest_sharpe = 16
             self.set_tickers_of_interest(self.df_sharpe_ratios.droplevel(1, axis=1).squeeze().sort_values(ascending=True).dropna()[-nbest_sharpe:].index.tolist())
         
         # Get outta here
@@ -216,7 +327,7 @@ class TraditionalPortfolioAnalyzer:
         self.ohlcv_data_path = ohlcv_data_path
         df = read_csv(ohlcv_data_path, header=[0, 1], index_col=0, parse_dates=True, infer_datetime_format=True)
 
-        # Calculate and cache other data (for fash dashboard)
+        # Calculate and cache other data (for fast dashboard)
         self.df_returns = get_log_returns(df)
         self.df_returns_mean = self.df_returns.mean(axis=0)
         self.df_returns_corr = self.df_returns.droplevel(1, axis=1).corr()
@@ -230,7 +341,7 @@ class TraditionalPortfolioAnalyzer:
 
     def get_tickers_of_interest(self) -> List[str]:
         return self.tickers_of_interest
-    
+
     def get_returns_vector(self):
         tickers = self.tickers_of_interest
         return self.df_returns_mean[tickers].to_numpy()
@@ -245,6 +356,26 @@ class TraditionalPortfolioAnalyzer:
 
     def get_distance_matrix(self):
         return np.sqrt(0.5 * (1.0 - self.get_correlation_matrix()))
+    
+    
+        
+
+        expected_return = self.df_returns_mean[tickers].to_numpy() * self.periods_per_annum
+
+        covmat = self.df_returns_cov.loc[tickers, tickers]
+        print(covmat.head())
+
+        expected_variance = np.array([self.df_returns_cov.iloc[i, i] for i in range(len(tickers))]) * self.periods_per_annum
+
+        df = DataFrame(
+            data={
+                'ticker': tickers,
+                'expected_return': expected_return,
+                'expected_variance': expected_variance,
+                'sharpe_ratio': self.df_sharpe_ratios.squeeze()[tickers].tolist(),
+            },
+        )
+        return df
     
     def run_traditional_portfolio_analysis(self, num_simulations: int = 4):
         """
@@ -290,16 +421,18 @@ class TraditionalPortfolioAnalyzer:
     def get_equal_weight_portfolio(self) -> PortfolioOptimizationResult:
         ntickers = len(self.tickers_of_interest)
         weights = np.full(ntickers, (1.0 / ntickers))
+
         returns_vector = self.get_returns_vector()
         covariance_matrix = self.get_covariance_matrix()
+        
         portfolio_return = get_portfolio_return(weights=weights, expected_returns=returns_vector, periods_per_annum=self.periods_per_annum)
         portfolio_variance = get_portfolio_variance(weights=weights, covariance_matrix=covariance_matrix, periods_per_annum=self.periods_per_annum)
         portfolio_sharpe_ratio = get_portfolio_sharpe_ratio(
-            weights=weights,
-            expected_returns=returns_vector,
-            covariance_matrix=covariance_matrix,
-            risk_free_rate=self.risk_free_rate,
-            periods_per_annum=self.periods_per_annum,
+            weights = weights,
+            expected_returns = returns_vector,
+            covariance_matrix = covariance_matrix,
+            risk_free_rate = self.risk_free_rate,
+            periods_per_annum = self.periods_per_annum,
         )
         return PortfolioOptimizationResult(
             tickers = self.tickers_of_interest,
@@ -309,9 +442,6 @@ class TraditionalPortfolioAnalyzer:
             periods_per_annum = self.periods_per_annum,
             sharpe_ratio = portfolio_sharpe_ratio,
         )
-    
-    def get_minimum_variance_portfolio_try2(self):
-        return None
     
     def get_minimum_variance_portfolio(self) -> PortfolioOptimizationResult:
         # Cache quantities and define shorthands
@@ -369,7 +499,8 @@ class TraditionalPortfolioAnalyzer:
         return weights
     
     def _get_weight_bounds_for_scipy(self):
-        return ((0, 1), ) * len(self.tickers_of_interest)
+        ntickers = len(self.tickers_of_interest)
+        return ((-1, 1) if self.allow_shorts else (0, 1), ) * ntickers
 
     def _get_weight_constraint_for_scipy(self):
         return {
@@ -679,6 +810,7 @@ class MyPortfolioSimulator:
 
         # Return the results
         return efficient_frontier
+'''
 
 
 def test():
