@@ -12,7 +12,7 @@ Creators:
 
 #### Table of Contents
 
-* [Overview](#overview)
+* [About](#about)
 * [Theory](#theory)
     * [Fundamental Analysis](#fundamental-analysis)
     * [Technical Analysis](#technical-analysis)
@@ -30,7 +30,7 @@ Creators:
 ---
 
 
-## Overview
+## About
 
 #### What is Powerfolio!?
 **Powerfolio!** is screener, portfolio builder and analyzer for S&P 500 securities.
